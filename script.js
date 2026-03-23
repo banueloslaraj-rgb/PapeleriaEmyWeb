@@ -27,7 +27,7 @@ async function cargarProductos(){
         console.log('🔄 Cargando productos - Papelería Emy Versión:', VERSION);
         
         const timestamp = new Date().getTime();
-        const res = await fetch(`productos-data.json?v=${VERSION}&t=${timestamp}`);
+        const res = await fetch(`productos.json?v=${VERSION}&t=${timestamp}`);
         
         if (!res.ok) {
             throw new Error(`Error HTTP: ${res.status}`);
