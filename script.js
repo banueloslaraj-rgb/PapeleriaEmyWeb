@@ -1,5 +1,3 @@
-// ================= script.js =================
-
 let productos = [];
 let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 
