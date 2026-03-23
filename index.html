@@ -10,8 +10,7 @@
 
 <header class="header">
   <h1>🧡 Papelería Emy</h1>
-  <p>Todo en papelería, impresiones y trámites</p>
-
+  <p>Artículos, impresiones y trámites al instante</p>
   <input type="text" id="buscador" placeholder="🔍 Buscar productos...">
   <div id="filtros"></div>
 </header>
@@ -20,15 +19,19 @@
   <div id="productos" class="grid"></div>
 </main>
 
-<div class="carrito">
-  <h3>🛒 Carrito</h3>
+<!-- BOTÓN FLOTANTE -->
+<div class="fab" onclick="toggleCarrito()">🛒</div>
+
+<!-- PANEL CARRITO -->
+<div id="panelCarrito" class="panel-carrito hidden">
+  <h3>🛒 Tu carrito</h3>
   <ul id="listaCarrito"></ul>
   <p id="total"></p>
   <button onclick="pagar()">💳 Pagar</button>
   <button onclick="enviarWhatsApp()">📲 WhatsApp</button>
 </div>
 
-<!-- Modal -->
+<!-- MODAL -->
 <div id="ticketModal" class="modal hidden">
   <div class="modal-content">
     <h2>🧾 Tu pedido</h2>

@@ -20,7 +20,7 @@ function mostrarProductos(lista){
       <img src="${p.imagen}">
       <h3>${p.nombre}</h3>
       <p class="precio">$${p.precio}</p>
-      <button onclick="agregar(${p.id})">🛒 Agregar</button>
+      <button onclick="agregar(${p.id})">Agregar</button>
     </div>`;
   });
 }
@@ -45,7 +45,7 @@ function agregar(id){
   if(existe){
     existe.cantidad++;
   } else {
-    carrito.push({...prod, cantidad: 1});
+    carrito.push({...prod, cantidad:1});
   }
 
   localStorage.setItem("carrito", JSON.stringify(carrito));
@@ -59,12 +59,21 @@ function mostrarCarrito(){
   lista.innerHTML = "";
   let total = 0;
 
-  carrito.forEach((p) => {
+  carrito.forEach(p => {
     total += p.precio * p.cantidad;
     lista.innerHTML += `<li>${p.nombre} x${p.cantidad}</li>`;
   });
 
   totalEl.innerText = "Total: $" + total;
+}
+
+function toggleCarrito(){
+  document.getElementById("panelCarrito").classList.toggle("hidden");
+}
+
+function pagar(){
+  generarTicket();
+  document.getElementById("ticketModal").classList.remove("hidden");
 }
 
 function generarTicket(){
@@ -78,11 +87,6 @@ function generarTicket(){
 
   html += `<h3>Total: $${total}</h3>`;
   document.getElementById("ticket").innerHTML = html;
-}
-
-function pagar(){
-  generarTicket();
-  document.getElementById("ticketModal").classList.remove("hidden");
 }
 
 function cerrarModal(){
@@ -103,6 +107,7 @@ function enviarWhatsApp(){
   window.open(`https://wa.me/5213111198148?text=${msg}`);
 }
 
+// buscador
 document.getElementById("buscador").addEventListener("input", e => {
   const t = e.target.value.toLowerCase();
   mostrarProductos(productos.filter(p =>

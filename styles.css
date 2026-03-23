@@ -4,22 +4,11 @@ body {
   background: #f2f2f2;
 }
 
-/* HEADER */
 .header {
   background: linear-gradient(135deg, #ff8c00, #ff5e00);
   color: white;
   text-align: center;
   padding: 25px;
-}
-
-.header h1 {
-  margin: 0;
-  font-size: 2rem;
-}
-
-.header p {
-  margin: 5px 0 15px;
-  font-size: 0.9rem;
 }
 
 #buscador {
@@ -29,7 +18,6 @@ body {
   border: none;
 }
 
-/* FILTROS */
 #filtros button {
   margin: 5px;
   padding: 6px 12px;
@@ -41,7 +29,6 @@ body {
   cursor: pointer;
 }
 
-/* PRODUCTOS */
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -54,15 +41,14 @@ body {
   border-radius: 15px;
   padding: 10px;
   box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-  position: relative;
   transition: transform 0.2s;
+  position: relative;
 }
 
 .producto:hover {
-  transform: scale(1.03);
+  transform: scale(1.05);
 }
 
-/* ETIQUETAS */
 .badge {
   position: absolute;
   top: 10px;
@@ -70,8 +56,8 @@ body {
   background: red;
   color: white;
   padding: 3px 8px;
-  font-size: 12px;
   border-radius: 8px;
+  font-size: 12px;
 }
 
 .producto img {
@@ -81,17 +67,12 @@ body {
   border-radius: 10px;
 }
 
-.producto h3 {
-  margin: 10px 0 5px;
-}
-
 .precio {
   font-size: 18px;
   font-weight: bold;
   color: #ff5e00;
 }
 
-/* BOTONES */
 button {
   background: #ff8c00;
   color: white;
@@ -107,16 +88,38 @@ button:hover {
   background: #ff5e00;
 }
 
-/* CARRITO */
-.carrito {
+/* BOTÓN FLOTANTE */
+.fab {
   position: fixed;
-  bottom: 15px;
-  right: 15px;
+  bottom: 20px;
+  right: 20px;
+  background: #ff5e00;
+  color: white;
+  font-size: 24px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+/* PANEL CARRITO */
+.panel-carrito {
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 300px;
+  height: 100%;
   background: white;
-  padding: 15px;
-  border-radius: 15px;
-  width: 260px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  box-shadow: -5px 0 15px rgba(0,0,0,0.2);
+  padding: 20px;
+}
+
+.hidden {
+  display: none;
 }
 
 /* MODAL */
@@ -137,9 +140,4 @@ button:hover {
   padding: 20px;
   border-radius: 15px;
   width: 300px;
-  text-align: center;
-}
-
-.hidden {
-  display: none;
 }

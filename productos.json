@@ -14,20 +14,5 @@
     "categoria": "Papelería",
     "imagen": "https://via.placeholder.com/200",
     "badge": "💲 Oferta"
-  },
-  {
-    "id": 3,
-    "nombre": "Copias B/N",
-    "precio": 2,
-    "categoria": "Servicios",
-    "imagen": "https://via.placeholder.com/200"
-  },
-  {
-    "id": 4,
-    "nombre": "Acta de Nacimiento",
-    "precio": 120,
-    "categoria": "Trámites",
-    "imagen": "https://via.placeholder.com/200",
-    "badge": "⭐ Popular"
   }
 ]
