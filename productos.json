@@ -1,18 +1,234 @@
 [
-  {
-    "id": 1,
-    "nombre": "Cuaderno Profesional",
-    "precio": 45,
-    "categoria": "Papelería",
-    "imagen": "https://via.placeholder.com/200",
-    "badge": "🔥 Más vendido"
-  },
-  {
-    "id": 2,
-    "nombre": "Pluma Azul",
-    "precio": 10,
-    "categoria": "Papelería",
-    "imagen": "https://via.placeholder.com/200",
-    "badge": "💲 Oferta"
-  }
+    {
+        "nombre": "Copia B/N",
+        "descripcion": "Copia blanco y negro tamaño carta/oficio",
+        "precio": 1,
+        "tipo": "copias",
+        "imagen": "https://i.postimg.cc/placeholder/copia-bn.jpg",
+        "video": "#"
+    },
+    {
+        "nombre": "Copia Color",
+        "descripcion": "Copia a color tamaño carta/oficio",
+        "precio": 3,
+        "tipo": "copias",
+        "imagen": "https://i.postimg.cc/placeholder/copia-color.jpg",
+        "video": "#"
+    },
+    {
+        "nombre": "Impresión B/N",
+        "descripcion": "Impresión blanco y negro desde USB o archivo",
+        "precio": 2,
+        "tipo": "impresion",
+        "imagen": "https://i.postimg.cc/placeholder/impresion-bn.jpg",
+        "video": "#"
+    },
+    {
+        "nombre": "Impresión Color",
+        "descripcion": "Impresión a color desde USB o archivo",
+        "precio": 5,
+        "tipo": "impresion",
+        "imagen": "https://i.postimg.cc/placeholder/impresion-color.jpg",
+        "video": "#"
+    },
+    {
+        "nombre": "Acta de Nacimiento",
+        "descripcion": "Trámite de acta de nacimiento certificada",
+        "precio": 85,
+        "tipo": "tramites",
+        "imagen": "https://i.postimg.cc/placeholder/acta-nacimiento.jpg",
+        "video": "#"
+    },
+    {
+        "nombre": "CURP",
+        "descripcion": "Trámite e impresión de CURP certificada",
+        "precio": 50,
+        "tipo": "tramites",
+        "imagen": "https://i.postimg.cc/placeholder/curp.jpg",
+        "video": "#"
+    },
+    {
+        "nombre": "RFC",
+        "descripcion": "Trámite de RFC y cédula fiscal",
+        "precio": 150,
+        "tipo": "tramites",
+        "imagen": "https://i.postimg.cc/placeholder/rfc.jpg",
+        "video": "#"
+    },
+    {
+        "nombre": "INE / Credencial",
+        "descripcion": "Trámite de INE (cita y acompañamiento)",
+        "precio": 200,
+        "tipo": "tramites",
+        "imagen": "https://i.postimg.cc/placeholder/ine.jpg",
+        "video": "#"
+    },
+    {
+        "nombre": "Pasaporte",
+        "descripcion": "Trámite de pasaporte mexicano (cita y documentos)",
+        "precio": 350,
+        "tipo": "tramites",
+        "imagen": "https://i.postimg.cc/placeholder/pasaporte.jpg",
+        "video": "#"
+    },
+    {
+        "nombre": "Certificado de Estudios",
+        "descripcion": "Trámite de certificado de primaria/secundaria/prepa",
+        "precio": 180,
+        "tipo": "tramites",
+        "imagen": "https://i.postimg.cc/placeholder/certificado.jpg",
+        "video": "#"
+    },
+    {
+        "nombre": "Engargolado",
+        "descripcion": "Engargolado de documentos, tamaño carta/oficio",
+        "precio": 25,
+        "tipo": "servicios",
+        "imagen": "https://i.postimg.cc/placeholder/engargolado.jpg",
+        "video": "#"
+    },
+    {
+        "nombre": "Empastado",
+        "descripcion": "Empastado de tesis, trabajos y documentos",
+        "precio": 80,
+        "tipo": "servicios",
+        "imagen": "https://i.postimg.cc/placeholder/empastado.jpg",
+        "video": "#"
+    },
+    {
+        "nombre": "Laminado",
+        "descripcion": "Laminado de documentos tamaño carta/oficio",
+        "precio": 15,
+        "tipo": "servicios",
+        "imagen": "https://i.postimg.cc/placeholder/laminado.jpg",
+        "video": "#"
+    },
+    {
+        "nombre": "Hojas Blancas",
+        "descripcion": "Paquete de 100 hojas blancas tamaño carta",
+        "precio": 45,
+        "tipo": "papeleria",
+        "imagen": "https://i.postimg.cc/placeholder/hojas.jpg",
+        "video": "#"
+    },
+    {
+        "nombre": "Cuaderno Profesional",
+        "descripcion": "Cuaderno profesional tamaño carta, 100 hojas",
+        "precio": 65,
+        "tipo": "papeleria",
+        "imagen": "https://i.postimg.cc/placeholder/cuaderno.jpg",
+        "video": "#"
+    },
+    {
+        "nombre": "Lapiceros",
+        "descripcion": "Paquete de 10 lapiceros de tinta negra/azul",
+        "precio": 35,
+        "tipo": "utiles",
+        "imagen": "https://i.postimg.cc/placeholder/lapiceros.jpg",
+        "video": "#"
+    },
+    {
+        "nombre": "Lápices",
+        "descripcion": "Paquete de 10 lápices número 2",
+        "precio": 30,
+        "tipo": "utiles",
+        "imagen": "https://i.postimg.cc/placeholder/lapices.jpg",
+        "video": "#"
+    },
+    {
+        "nombre": "Sacapuntas",
+        "descripcion": "Sacapuntas metálico con depósito",
+        "precio": 12,
+        "tipo": "utiles",
+        "imagen": "https://i.postimg.cc/placeholder/sacapuntas.jpg",
+        "video": "#"
+    },
+    {
+        "nombre": "Gomas de Borrar",
+        "descripcion": "Paquete de 5 gomas de borrar blancas",
+        "precio": 15,
+        "tipo": "utiles",
+        "imagen": "https://i.postimg.cc/placeholder/gomas.jpg",
+        "video": "#"
+    },
+    {
+        "nombre": "Regla 30cm",
+        "descripcion": "Regla de plástico transparente 30cm",
+        "precio": 12,
+        "tipo": "utiles",
+        "imagen": "https://i.postimg.cc/placeholder/regla.jpg",
+        "video": "#"
+    },
+    {
+        "nombre": "Marcadores de Colores",
+        "descripcion": "Caja de 12 marcadores de colores",
+        "precio": 45,
+        "tipo": "utiles",
+        "imagen": "https://i.postimg.cc/placeholder/marcadores.jpg",
+        "video": "#"
+    },
+    {
+        "nombre": "Colores de Madera",
+        "descripcion": "Caja de 12 colores de madera",
+        "precio": 35,
+        "tipo": "utiles",
+        "imagen": "https://i.postimg.cc/placeholder/colores.jpg",
+        "video": "#"
+    },
+    {
+        "nombre": "Pegamento en Barra",
+        "descripcion": "Pegamento en barra 40gr",
+        "precio": 18,
+        "tipo": "utiles",
+        "imagen": "https://i.postimg.cc/placeholder/pegamento.jpg",
+        "video": "#"
+    },
+    {
+        "nombre": "Tijeras Escolares",
+        "descripcion": "Tijeras de punta roma para niños",
+        "precio": 25,
+        "tipo": "utiles",
+        "imagen": "https://i.postimg.cc/placeholder/tijeras.jpg",
+        "video": "#"
+    },
+    {
+        "nombre": "Diccionario Español",
+        "descripcion": "Diccionario de la lengua española",
+        "precio": 180,
+        "tipo": "libros",
+        "imagen": "https://i.postimg.cc/placeholder/diccionario.jpg",
+        "video": "#"
+    },
+    {
+        "nombre": "Libro de Lectura",
+        "descripcion": "Libros de lectura para primaria",
+        "precio": 95,
+        "tipo": "libros",
+        "imagen": "https://i.postimg.cc/placeholder/libro.jpg",
+        "video": "#"
+    },
+    {
+        "nombre": "Cartulina",
+        "descripcion": "Cartulina blanca tamaño carta (10 piezas)",
+        "precio": 40,
+        "tipo": "papeleria",
+        "imagen": "https://i.postimg.cc/placeholder/cartulina.jpg",
+        "video": "#"
+    },
+    {
+        "nombre": "Folder Manila",
+        "descripcion": "Folder manila tamaño carta (10 piezas)",
+        "precio": 35,
+        "tipo": "papeleria",
+        "imagen": "https://i.postimg.cc/placeholder/folder.jpg",
+        "video": "#"
+    },
+    {
+        "nombre": "Sobre Manila",
+        "descripcion": "Sobre manila tamaño carta (10 piezas)",
+        "precio": 30,
+        "tipo": "papeleria",
+        "imagen": "https://i.postimg.cc/placeholder/sobre.jpg",
+        "video": "#"
+    }
 ]
