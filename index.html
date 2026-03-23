@@ -1,143 +1,73 @@
-body {
-  margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: #f2f2f2;
-}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Papelería Emy - Copias, Trámites y Servicios</title>
+    
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
 
-.header {
-  background: linear-gradient(135deg, #ff8c00, #ff5e00);
-  color: white;
-  text-align: center;
-  padding: 25px;
-}
+<button onclick="verCarrito()">🛒 Ver carrito (0)</button>
 
-#buscador {
-  padding: 10px;
-  width: 80%;
-  border-radius: 20px;
-  border: none;
-}
+<header>
+    <h1>📚 Papelería Emy</h1>
+    <p>Copias | Trámites | Servicios | Artículos de Papelería</p>
+    <p>📞 3111198148 | 📍 Tu mejor opción en servicios papeleros</p>
+    <input type="text" id="buscador" placeholder="Buscar productos o servicios..." onkeyup="buscar()">
+</header>
 
-#filtros button {
-  margin: 5px;
-  padding: 6px 12px;
-  border-radius: 20px;
-  border: none;
-  background: white;
-  color: #ff5e00;
-  font-weight: bold;
-  cursor: pointer;
-}
+<nav>
+    <button onclick="filtrar('todos')">🏠 Todos</button>
+    <button onclick="filtrar('papeleria')">📄 Papelería</button>
+    <button onclick="filtrar('servicios')">🛠️ Servicios</button>
+    <button onclick="filtrar('tramites')">📋 Trámites</button>
+    <button onclick="filtrar('copias')">📑 Copias</button>
+    <button onclick="filtrar('impresion')">🖨️ Impresión</button>
+    <button onclick="filtrar('libros')">📚 Libros</button>
+    <button onclick="filtrar('utiles')">✏️ Útiles</button>
+</nav>
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 20px;
-  padding: 20px;
-}
+<section id="productos"></section>
 
-.producto {
-  background: white;
-  border-radius: 15px;
-  padding: 10px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-  transition: transform 0.2s;
-  position: relative;
-}
+<!-- Modal del carrito -->
+<div id="modalCarrito" class="modal">
+    <div class="modal-contenido">
+        <div class="modal-header">
+            <h2>🛒 Tu Carrito</h2>
+            <span class="cerrar" onclick="cerrarModal()">&times;</span>
+        </div>
+        <div class="modal-body" id="carritoContenido"></div>
+    </div>
+</div>
 
-.producto:hover {
-  transform: scale(1.05);
-}
+<!-- Modal de envío -->
+<div id="modalEnvio" class="modal">
+    <div class="modal-contenido modal-pago">
+        <div class="modal-header">
+            <h2>📦 Datos para Recoger o Envío</h2>
+            <span class="cerrar" onclick="cerrarModalEnvio()">&times;</span>
+        </div>
+        <div class="modal-body" id="envioContenido"></div>
+    </div>
+</div>
 
-.badge {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  background: red;
-  color: white;
-  padding: 3px 8px;
-  border-radius: 8px;
-  font-size: 12px;
-}
+<footer>
+    <p>📚 Papelería Emy</p>
+    <p>📞 3111198148</p>
+    <p>📍 Dirección: [Tu dirección aquí]</p>
+    <p>⏰ Horario: Lunes a Sábado 9:00am - 7:00pm</p>
+</footer>
 
-.producto img {
-  width: 100%;
-  height: 150px;
-  object-fit: cover;
-  border-radius: 10px;
-}
+<a class="whatsapp" href="https://wa.me/523111198148" target="_blank">
+    💬 WhatsApp
+</a>
 
-.precio {
-  font-size: 18px;
-  font-weight: bold;
-  color: #ff5e00;
-}
-
-button {
-  background: #ff8c00;
-  color: white;
-  border: none;
-  padding: 8px;
-  border-radius: 10px;
-  cursor: pointer;
-  width: 100%;
-  margin-top: 5px;
-}
-
-button:hover {
-  background: #ff5e00;
-}
-
-/* BOTÓN FLOTANTE */
-.fab {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background: #ff5e00;
-  color: white;
-  font-size: 24px;
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-}
-
-/* PANEL */
-.panel-carrito {
-  position: fixed;
-  right: 0;
-  top: 0;
-  width: 300px;
-  height: 100%;
-  background: white;
-  box-shadow: -5px 0 15px rgba(0,0,0,0.2);
-  padding: 20px;
-}
-
-/* MODAL */
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.6);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.modal-content {
-  background: white;
-  padding: 20px;
-  border-radius: 15px;
-  width: 300px;
-}
-
-.hidden {
-  display: none;
-}
+<script src="script.js"></script>
+</body>
+</html>
