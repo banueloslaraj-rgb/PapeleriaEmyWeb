@@ -1,0 +1,31 @@
+// ================= productos.json =================
+[
+  {
+    "id": 1,
+    "nombre": "Cuaderno Profesional",
+    "precio": 45,
+    "categoria": "Papelería",
+    "imagen": "https://via.placeholder.com/200"
+  },
+  {
+    "id": 2,
+    "nombre": "Pluma Azul",
+    "precio": 10,
+    "categoria": "Papelería",
+    "imagen": "https://via.placeholder.com/200"
+  },
+  {
+    "id": 3,
+    "nombre": "Copias B/N",
+    "precio": 2,
+    "categoria": "Servicios",
+    "imagen": "https://via.placeholder.com/200"
+  },
+  {
+    "id": 4,
+    "nombre": "Acta de Nacimiento",
+    "precio": 120,
+    "categoria": "Trámites",
+    "imagen": "https://via.placeholder.com/200"
+  }
+]
