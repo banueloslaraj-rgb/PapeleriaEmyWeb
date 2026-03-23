@@ -3,7 +3,7 @@ let costoEnvio = 50 // Costo de envío para papelería (ajustado)
 let productosGlobales = []
 
 // ⚡ VERSIÓN ACTUAL
-const VERSION = '2.0.0'; // Versión para Papelería Emy
+const VERSION = '2.0.1'; // Versión para Papelería Emy
 
 // 🎯 ÍCONOS POR CATEGORÍA (actualizado para papelería)
 const iconosCategoria = {
