@@ -2,58 +2,67 @@ let productos = [];
 let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 
 fetch("productos.json")
-  .then(res => res.json())
-  .then(data => {
-    productos = data;
-    mostrarProductos(productos);
-    crearFiltros();
-  });
+.then(r => r.json())
+.then(data => {
+  productos = data;
+  mostrarProductos(productos);
+  crearFiltros();
+});
 
-function mostrarProductos(lista) {
-  const contenedor = document.getElementById("productos");
-  contenedor.innerHTML = "";
+function mostrarProductos(lista){
+  const cont = document.getElementById("productos");
+  cont.innerHTML = "";
 
   lista.forEach(p => {
-    contenedor.innerHTML += `
-      <div class="producto">
-        <img src="${p.imagen}" alt="${p.nombre}">
-        <h3>${p.nombre}</h3>
-        <p>${p.categoria}</p>
-        <p>$${p.precio}</p>
-        <button onclick="agregar(${p.id})">Agregar</button>
-      </div>
-    `;
+    cont.innerHTML += `
+    <div class="producto">
+      <img src="${p.imagen}">
+      <h3>${p.nombre}</h3>
+      <p>$${p.precio}</p>
+      <button onclick="agregar(${p.id})">Agregar</button>
+    </div>`;
   });
 }
 
-function crearFiltros() {
-  const categorias = [...new Set(productos.map(p => p.categoria))];
-  const contenedor = document.getElementById("filtros");
+function crearFiltros(){
+  const cats = [...new Set(productos.map(p => p.categoria))];
+  const cont = document.getElementById("filtros");
 
-  categorias.forEach(cat => {
-    contenedor.innerHTML += `<button onclick="filtrar('${cat}')">${cat}</button>`;
+  cats.forEach(c => {
+    cont.innerHTML += `<button onclick="filtrar('${c}')">${c}</button>`;
   });
 }
 
-function filtrar(categoria) {
-  const filtrados = productos.filter(p => p.categoria === categoria);
-  mostrarProductos(filtrados);
+function filtrar(c){
+  mostrarProductos(productos.filter(p => p.categoria === c));
 }
 
-function agregar(id) {
-  const producto = productos.find(p => p.id === id);
-  carrito.push(producto);
+function agregar(id){
+  const prod = productos.find(p => p.id === id);
+  const existe = carrito.find(p => p.id === id);
+
+  if(existe){
+    existe.cantidad++;
+  } else {
+    carrito.push({...prod, cantidad: 1});
+  }
+
   localStorage.setItem("carrito", JSON.stringify(carrito));
   mostrarCarrito();
 }
 
-function eliminar(index) {
-  carrito.splice(index, 1);
+function cambiarCantidad(i, delta){
+  carrito[i].cantidad += delta;
+
+  if(carrito[i].cantidad <= 0){
+    carrito.splice(i, 1);
+  }
+
   localStorage.setItem("carrito", JSON.stringify(carrito));
   mostrarCarrito();
 }
 
-function mostrarCarrito() {
+function mostrarCarrito(){
   const lista = document.getElementById("listaCarrito");
   const totalEl = document.getElementById("total");
 
@@ -61,39 +70,62 @@ function mostrarCarrito() {
   let total = 0;
 
   carrito.forEach((p, i) => {
-    lista.innerHTML += `<li>${p.nombre} - $${p.precio} <button onclick="eliminar(${i})">❌</button></li>`;
-    total += p.precio;
+    total += p.precio * p.cantidad;
+
+    lista.innerHTML += `
+      <li>
+        ${p.nombre} x${p.cantidad} - $${p.precio * p.cantidad}
+        <button onclick="cambiarCantidad(${i},1)">+</button>
+        <button onclick="cambiarCantidad(${i},-1)">-</button>
+      </li>
+    `;
   });
 
   totalEl.innerText = "Total: $" + total;
 }
 
-function pagar() {
-  window.location.href = "https://mpago.la/tu_link";
-}
-
-function enviarWhatsApp() {
-  let mensaje = "Pedido:%0A";
+function generarTicket(){
+  let html = "";
   let total = 0;
 
   carrito.forEach(p => {
-    mensaje += `- ${p.nombre} $${p.precio}%0A`;
-    total += p.precio;
+    html += `<p>${p.nombre} x${p.cantidad} - $${p.precio * p.cantidad}</p>`;
+    total += p.precio * p.cantidad;
   });
 
-  mensaje += `%0ATotal: $${total}`;
-
-  window.open(`https://wa.me/5213111198148?text=${mensaje}`);
+  html += `<h3>Total: $${total}</h3>`;
+  document.getElementById("ticket").innerHTML = html;
 }
 
-// Buscador
+function pagar(){
+  generarTicket();
+  document.getElementById("ticketModal").classList.remove("hidden");
+}
 
+function cerrarModal(){
+  document.getElementById("ticketModal").classList.add("hidden");
+}
+
+function enviarWhatsApp(){
+  let msg = "Pedido:%0A";
+  let total = 0;
+
+  carrito.forEach(p => {
+    msg += `${p.nombre} x${p.cantidad} $${p.precio * p.cantidad}%0A`;
+    total += p.precio * p.cantidad;
+  });
+
+  msg += `Total: $${total}`;
+
+  window.open(`https://wa.me/5213111063251?text=${msg}`);
+}
+
+// buscador
 document.getElementById("buscador").addEventListener("input", e => {
-  const texto = e.target.value.toLowerCase();
-  const filtrados = productos.filter(p =>
-    p.nombre.toLowerCase().includes(texto)
-  );
-  mostrarProductos(filtrados);
+  const t = e.target.value.toLowerCase();
+  mostrarProductos(productos.filter(p =>
+    p.nombre.toLowerCase().includes(t)
+  ));
 });
 
 mostrarCarrito();
