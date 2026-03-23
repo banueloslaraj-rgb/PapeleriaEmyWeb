@@ -83,7 +83,7 @@ function enviarWhatsApp() {
 
   mensaje += `%0ATotal: $${total}`;
 
-  window.open(`https://wa.me/5213111063251?text=${mensaje}`);
+  window.open(`https://wa.me/5213111198148?text=${mensaje}`);
 }
 
 // Buscador
