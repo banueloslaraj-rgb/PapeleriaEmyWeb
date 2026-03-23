@@ -16,10 +16,11 @@ function mostrarProductos(lista){
   lista.forEach(p => {
     cont.innerHTML += `
     <div class="producto">
+      ${p.badge ? `<div class="badge">${p.badge}</div>` : ""}
       <img src="${p.imagen}">
       <h3>${p.nombre}</h3>
-      <p>$${p.precio}</p>
-      <button onclick="agregar(${p.id})">Agregar</button>
+      <p class="precio">$${p.precio}</p>
+      <button onclick="agregar(${p.id})">🛒 Agregar</button>
     </div>`;
   });
 }
@@ -51,17 +52,6 @@ function agregar(id){
   mostrarCarrito();
 }
 
-function cambiarCantidad(i, delta){
-  carrito[i].cantidad += delta;
-
-  if(carrito[i].cantidad <= 0){
-    carrito.splice(i, 1);
-  }
-
-  localStorage.setItem("carrito", JSON.stringify(carrito));
-  mostrarCarrito();
-}
-
 function mostrarCarrito(){
   const lista = document.getElementById("listaCarrito");
   const totalEl = document.getElementById("total");
@@ -69,16 +59,9 @@ function mostrarCarrito(){
   lista.innerHTML = "";
   let total = 0;
 
-  carrito.forEach((p, i) => {
+  carrito.forEach((p) => {
     total += p.precio * p.cantidad;
-
-    lista.innerHTML += `
-      <li>
-        ${p.nombre} x${p.cantidad} - $${p.precio * p.cantidad}
-        <button onclick="cambiarCantidad(${i},1)">+</button>
-        <button onclick="cambiarCantidad(${i},-1)">-</button>
-      </li>
-    `;
+    lista.innerHTML += `<li>${p.nombre} x${p.cantidad}</li>`;
   });
 
   totalEl.innerText = "Total: $" + total;
@@ -89,7 +72,7 @@ function generarTicket(){
   let total = 0;
 
   carrito.forEach(p => {
-    html += `<p>${p.nombre} x${p.cantidad} - $${p.precio * p.cantidad}</p>`;
+    html += `<p>${p.nombre} x${p.cantidad}</p>`;
     total += p.precio * p.cantidad;
   });
 
@@ -111,16 +94,15 @@ function enviarWhatsApp(){
   let total = 0;
 
   carrito.forEach(p => {
-    msg += `${p.nombre} x${p.cantidad} $${p.precio * p.cantidad}%0A`;
+    msg += `${p.nombre} x${p.cantidad}%0A`;
     total += p.precio * p.cantidad;
   });
 
   msg += `Total: $${total}`;
 
-  window.open(`https://wa.me/5213111063251?text=${msg}`);
+  window.open(`https://wa.me/5213111198148?text=${msg}`);
 }
 
-// buscador
 document.getElementById("buscador").addEventListener("input", e => {
   const t = e.target.value.toLowerCase();
   mostrarProductos(productos.filter(p =>

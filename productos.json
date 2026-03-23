@@ -4,14 +4,16 @@
     "nombre": "Cuaderno Profesional",
     "precio": 45,
     "categoria": "Papelería",
-    "imagen": "https://via.placeholder.com/200"
+    "imagen": "https://via.placeholder.com/200",
+    "badge": "🔥 Más vendido"
   },
   {
     "id": 2,
     "nombre": "Pluma Azul",
     "precio": 10,
     "categoria": "Papelería",
-    "imagen": "https://via.placeholder.com/200"
+    "imagen": "https://via.placeholder.com/200",
+    "badge": "💲 Oferta"
   },
   {
     "id": 3,
@@ -25,6 +27,7 @@
     "nombre": "Acta de Nacimiento",
     "precio": 120,
     "categoria": "Trámites",
-    "imagen": "https://via.placeholder.com/200"
+    "imagen": "https://via.placeholder.com/200",
+    "badge": "⭐ Popular"
   }
 ]

@@ -8,9 +8,11 @@
 </head>
 <body>
 
-<header>
-  <h1>Papelería Emy</h1>
-  <input type="text" id="buscador" placeholder="Buscar productos...">
+<header class="header">
+  <h1>🧡 Papelería Emy</h1>
+  <p>Todo en papelería, impresiones y trámites</p>
+
+  <input type="text" id="buscador" placeholder="🔍 Buscar productos...">
   <div id="filtros"></div>
 </header>
 
@@ -18,18 +20,18 @@
   <div id="productos" class="grid"></div>
 </main>
 
-<div id="carrito" class="carrito">
+<div class="carrito">
   <h3>🛒 Carrito</h3>
   <ul id="listaCarrito"></ul>
   <p id="total"></p>
-  <button onclick="pagar()">Pagar</button>
-  <button onclick="enviarWhatsApp()">WhatsApp</button>
+  <button onclick="pagar()">💳 Pagar</button>
+  <button onclick="enviarWhatsApp()">📲 WhatsApp</button>
 </div>
 
-<!-- Modal Ticket -->
+<!-- Modal -->
 <div id="ticketModal" class="modal hidden">
   <div class="modal-content">
-    <h2>Resumen de compra</h2>
+    <h2>🧾 Tu pedido</h2>
     <div id="ticket"></div>
     <button onclick="cerrarModal()">Cerrar</button>
   </div>
