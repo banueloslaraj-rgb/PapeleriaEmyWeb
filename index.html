@@ -1,45 +1,143 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Papelería Emy</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: #f2f2f2;
+}
 
-<header class="header">
-  <h1>🧡 Papelería Emy</h1>
-  <p>Artículos, impresiones y trámites al instante</p>
-  <input type="text" id="buscador" placeholder="🔍 Buscar productos...">
-  <div id="filtros"></div>
-</header>
+.header {
+  background: linear-gradient(135deg, #ff8c00, #ff5e00);
+  color: white;
+  text-align: center;
+  padding: 25px;
+}
 
-<main>
-  <div id="productos" class="grid"></div>
-</main>
+#buscador {
+  padding: 10px;
+  width: 80%;
+  border-radius: 20px;
+  border: none;
+}
 
-<!-- BOTÓN FLOTANTE -->
-<div class="fab" onclick="toggleCarrito()">🛒</div>
+#filtros button {
+  margin: 5px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  border: none;
+  background: white;
+  color: #ff5e00;
+  font-weight: bold;
+  cursor: pointer;
+}
 
-<!-- PANEL CARRITO -->
-<div id="panelCarrito" class="panel-carrito hidden">
-  <h3>🛒 Tu carrito</h3>
-  <ul id="listaCarrito"></ul>
-  <p id="total"></p>
-  <button onclick="pagar()">💳 Pagar</button>
-  <button onclick="enviarWhatsApp()">📲 WhatsApp</button>
-</div>
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
 
-<!-- MODAL -->
-<div id="ticketModal" class="modal hidden">
-  <div class="modal-content">
-    <h2>🧾 Tu pedido</h2>
-    <div id="ticket"></div>
-    <button onclick="cerrarModal()">Cerrar</button>
-  </div>
-</div>
+.producto {
+  background: white;
+  border-radius: 15px;
+  padding: 10px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  transition: transform 0.2s;
+  position: relative;
+}
 
-<script src="script.js"></script>
-</body>
-</html>
+.producto:hover {
+  transform: scale(1.05);
+}
+
+.badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: red;
+  color: white;
+  padding: 3px 8px;
+  border-radius: 8px;
+  font-size: 12px;
+}
+
+.producto img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.precio {
+  font-size: 18px;
+  font-weight: bold;
+  color: #ff5e00;
+}
+
+button {
+  background: #ff8c00;
+  color: white;
+  border: none;
+  padding: 8px;
+  border-radius: 10px;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 5px;
+}
+
+button:hover {
+  background: #ff5e00;
+}
+
+/* BOTÓN FLOTANTE */
+.fab {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #ff5e00;
+  color: white;
+  font-size: 24px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+/* PANEL */
+.panel-carrito {
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 300px;
+  height: 100%;
+  background: white;
+  box-shadow: -5px 0 15px rgba(0,0,0,0.2);
+  padding: 20px;
+}
+
+/* MODAL */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 15px;
+  width: 300px;
+}
+
+.hidden {
+  display: none;
+}

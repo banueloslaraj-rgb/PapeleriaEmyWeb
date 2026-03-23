@@ -107,12 +107,15 @@ function enviarWhatsApp(){
   window.open(`https://wa.me/5213111198148?text=${msg}`);
 }
 
-// buscador
-document.getElementById("buscador").addEventListener("input", e => {
-  const t = e.target.value.toLowerCase();
-  mostrarProductos(productos.filter(p =>
-    p.nombre.toLowerCase().includes(t)
-  ));
-});
+// 🔥 SOLUCIÓN FINAL DEL BUG
+window.onload = () => {
+  document.getElementById("ticketModal").classList.add("hidden");
+  mostrarCarrito();
 
-mostrarCarrito();
+  document.getElementById("buscador").addEventListener("input", e => {
+    const t = e.target.value.toLowerCase();
+    mostrarProductos(productos.filter(p =>
+      p.nombre.toLowerCase().includes(t)
+    ));
+  });
+};
