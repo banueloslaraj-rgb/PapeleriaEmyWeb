@@ -2,507 +2,152 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel Admin - Papelería Emy</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-        }
-        
-        /* Pantalla de Login */
-        .login-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #f5f5f5; }
         
         .login-form {
-            background: white;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            text-align: center;
             max-width: 400px;
-            width: 100%;
-            animation: fadeIn 0.5s ease;
+            margin: 100px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            text-align: center;
         }
-        
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .login-form h2 {
-            color: #f5a623;
-            font-size: 28px;
-            margin-bottom: 10px;
-        }
-        
-        .login-form .subtitle {
-            color: #666;
-            margin-bottom: 30px;
-            font-size: 14px;
-        }
-        
+        .login-form h2 { color: #f5a623; margin-bottom: 20px; }
         .login-form input {
             width: 100%;
-            padding: 14px;
+            padding: 12px;
             margin: 10px 0;
             border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            font-size: 16px;
-            transition: all 0.3s;
+            border-radius: 8px;
         }
-        
-        .login-form input:focus {
-            outline: none;
-            border-color: #f5a623;
-            box-shadow: 0 0 0 3px rgba(245,166,35,0.1);
-        }
-        
         .login-form button {
             width: 100%;
-            padding: 14px;
-            background: linear-gradient(135deg, #f5a623, #f39c12);
+            padding: 12px;
+            background: #f5a623;
             color: white;
             border: none;
-            border-radius: 10px;
+            border-radius: 8px;
             cursor: pointer;
             font-size: 16px;
-            font-weight: bold;
-            margin-top: 15px;
-            transition: transform 0.2s;
         }
-        
-        .login-form button:hover {
-            transform: translateY(-2px);
-        }
-        
-        .login-form button:active {
-            transform: translateY(0);
-        }
-        
-        .error-message {
-            color: #dc3545;
-            margin-top: 15px;
-            font-size: 14px;
-            padding: 10px;
-            background: #ffe6e6;
-            border-radius: 8px;
-        }
-        
-        .success-message {
-            color: #28a745;
-            margin-top: 15px;
-            font-size: 14px;
-            padding: 10px;
-            background: #e6ffe6;
-            border-radius: 8px;
-        }
-        
-        .volver-link {
-            display: inline-block;
-            margin-top: 20px;
-            color: #f5a623;
-            text-decoration: none;
-            font-size: 14px;
-        }
-        
-        .volver-link:hover {
-            text-decoration: underline;
-        }
-        
-        /* Dashboard */
-        .dashboard {
-            display: none;
-            animation: fadeIn 0.5s ease;
-        }
-        
+        .dashboard { display: none; }
         .admin-header {
             background: linear-gradient(135deg, #f5a623, #f39c12);
             color: white;
-            padding: 20px 30px;
+            padding: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
-        
-        .admin-header h1 {
-            font-size: 24px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            background: rgba(255,255,255,0.2);
-            padding: 8px 15px;
-            border-radius: 30px;
-        }
-        
-        .user-info span {
-            font-size: 14px;
-        }
-        
-        .logout {
-            background: rgba(255,255,255,0.3);
-            padding: 6px 15px;
-            border: none;
-            border-radius: 20px;
-            color: white;
-            cursor: pointer;
-            font-size: 14px;
-            transition: all 0.3s;
-        }
-        
-        .logout:hover {
-            background: rgba(255,255,255,0.5);
-        }
-        
-        /* Estadísticas */
         .stats {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 20px;
-            padding: 25px;
-            max-width: 1400px;
-            margin: 0 auto;
+            padding: 20px;
         }
-        
         .stat-card {
             background: white;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            text-align: center;
-            transition: transform 0.2s;
-        }
-        
-        .stat-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .stat-card h4 {
-            color: #666;
-            font-size: 14px;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        
-        .stat-card h3 {
-            font-size: 36px;
-            color: #f5a623;
-            margin: 10px 0;
-        }
-        
-        /* Filtros */
-        .filtros {
-            background: white;
-            margin: 20px 25px;
             padding: 20px;
-            border-radius: 15px;
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-            align-items: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        }
-        
-        .filtros input, .filtros select {
-            padding: 12px 15px;
-            border: 2px solid #e0e0e0;
             border-radius: 10px;
-            font-size: 14px;
-            flex: 1;
-            min-width: 180px;
-            transition: all 0.3s;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
-        
-        .filtros input:focus, .filtros select:focus {
-            outline: none;
-            border-color: #f5a623;
+        .stat-card h3 { font-size: 32px; color: #f5a623; }
+        .filtros {
+            padding: 20px;
+            background: white;
+            margin: 20px;
+            border-radius: 10px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
         }
-        
+        .filtros input, .filtros select {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
         .filtros button {
-            padding: 12px 25px;
+            padding: 10px 20px;
             background: #f5a623;
             color: white;
             border: none;
-            border-radius: 10px;
+            border-radius: 5px;
             cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s;
         }
-        
-        .filtros button:hover {
-            background: #e67e22;
-            transform: scale(1.02);
-        }
-        
-        /* Tabla */
         .pedidos-table {
             background: white;
-            margin: 20px 25px;
-            border-radius: 15px;
+            margin: 20px;
+            border-radius: 10px;
             overflow-x: auto;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
-        
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        
-        th {
-            background: #f5a623;
-            color: white;
-            padding: 15px 12px;
-            text-align: left;
-            cursor: pointer;
-            user-select: none;
-            font-weight: 600;
-        }
-        
-        th:hover {
-            background: #e67e22;
-        }
-        
-        td {
-            padding: 12px;
-            border-bottom: 1px solid #f0f0f0;
-        }
-        
-        tr:hover {
-            background: #fef9f0;
-        }
-        
-        /* Estados */
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background: #f5a623; color: white; cursor: pointer; }
         .estado-select {
-            padding: 6px 12px;
+            padding: 5px 10px;
             border-radius: 20px;
             border: none;
             font-size: 12px;
             font-weight: bold;
             cursor: pointer;
-            background: #f0f0f0;
         }
-        
-        .estado-pendiente { background: #ffc107; color: #000; }
+        .estado-pendiente { background: #ffc107; }
         .estado-procesando { background: #17a2b8; color: white; }
         .estado-enviado { background: #007bff; color: white; }
         .estado-entregado { background: #28a745; color: white; }
         .estado-cancelado { background: #dc3545; color: white; }
-        
-        /* Botones de acción */
-        .btn-estado {
-            padding: 6px 12px;
-            margin: 0 3px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 12px;
-            font-weight: 500;
-            transition: all 0.2s;
-        }
-        
-        .btn-ver {
-            background: #f5a623;
-            color: white;
-        }
-        
-        .btn-ver:hover {
-            background: #e67e22;
-        }
-        
-        .btn-wa {
-            background: #25D366;
-            color: white;
-        }
-        
-        .btn-wa:hover {
-            background: #20b858;
-        }
-        
-        /* Modal */
+        .btn-estado { padding: 5px 10px; margin: 0 2px; border: none; border-radius: 5px; cursor: pointer; }
+        .btn-ver { background: #f5a623; color: white; }
+        .btn-wa { background: #25D366; color: white; }
+        .logout { background: rgba(255,255,255,0.2); padding: 8px 15px; border: none; border-radius: 5px; color: white; cursor: pointer; }
         .modal {
             display: none;
             position: fixed;
-            z-index: 2000;
+            z-index: 1000;
             left: 0;
             top: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.6);
-            animation: fadeIn 0.2s ease;
+            background: rgba(0,0,0,0.5);
         }
-        
         .modal-content {
             background: white;
             margin: 50px auto;
-            padding: 25px;
-            border-radius: 20px;
+            padding: 20px;
+            border-radius: 10px;
             width: 90%;
-            max-width: 550px;
-            max-height: 85%;
+            max-width: 500px;
+            max-height: 80%;
             overflow-y: auto;
-            animation: slideIn 0.3s ease;
         }
-        
-        @keyframes slideIn {
-            from {
-                transform: translateY(-50px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-        
-        .modal-content h2 {
-            color: #f5a623;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #f0f0f0;
-        }
-        
-        .modal-content p {
-            margin: 12px 0;
-            line-height: 1.5;
-        }
-        
-        .modal-content ul {
-            margin: 12px 0 12px 25px;
-        }
-        
-        .modal-content li {
-            margin: 8px 0;
-        }
-        
-        .cerrar-modal-btn {
-            margin-top: 25px;
-            padding: 12px;
-            background: #6c757d;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            width: 100%;
-            font-size: 16px;
-            font-weight: bold;
-        }
-        
-        .cerrar-modal-btn:hover {
-            background: #5a6268;
-        }
-        
-        .loading {
-            text-align: center;
-            padding: 50px;
-            color: #999;
-            font-size: 16px;
-        }
-        
-        .badge {
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: bold;
-        }
-        
-        @media (max-width: 768px) {
-            .admin-header h1 { font-size: 18px; }
-            .stats { padding: 15px; gap: 12px; }
-            .stat-card h3 { font-size: 24px; }
-            .filtros { margin: 15px; }
-            .pedidos-table { margin: 15px; }
-            th, td { font-size: 12px; padding: 8px; }
-            .btn-estado { padding: 4px 8px; font-size: 10px; }
-        }
-        
-        /* Notificación flotante */
-        .toast {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: #28a745;
-            color: white;
-            padding: 12px 24px;
-            border-radius: 10px;
-            z-index: 3000;
-            animation: slideUp 0.3s ease, fadeOut 3s ease forwards;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            font-size: 14px;
-        }
-        
-        @keyframes slideUp {
-            from {
-                transform: translateY(100px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-        
-        @keyframes fadeOut {
-            0% { opacity: 1; visibility: visible; }
-            70% { opacity: 1; }
-            100% { opacity: 0; visibility: hidden; }
-        }
+        .error-message { color: red; margin-top: 10px; }
+        @media (max-width: 768px) { th, td { font-size: 12px; padding: 8px; } }
     </style>
 </head>
 <body>
-    <!-- Pantalla de Login -->
-    <div class="login-container" id="loginContainer">
-        <div class="login-form">
-            <h2>🔐 Panel Administrador</h2>
-            <p class="subtitle">Ingresa con tu cuenta de Supabase</p>
-            <input type="email" id="adminEmail" placeholder="Correo electrónico" autocomplete="email">
-            <input type="password" id="adminPassword" placeholder="Contraseña" onkeypress="if(event.key==='Enter') login()">
-            <button onclick="login()">Acceder al panel</button>
-            <div id="loginMessage"></div>
-            <a href="index.html" class="volver-link">← Volver a la tienda</a>
-        </div>
+    <div class="login-form" id="loginForm">
+        <h2>🔐 Panel Administrador</h2>
+        <p>Ingresa tu contraseña</p>
+        <input type="password" id="adminPassword" placeholder="Contraseña" onkeypress="if(event.key==='Enter') loginSimple()">
+        <button onclick="loginSimple()">Acceder al panel</button>
+        <div id="loginError" class="error-message"></div>
+        <a href="index.html" style="display: inline-block; margin-top: 15px; color: #f5a623;">← Volver a la tienda</a>
     </div>
     
-    <!-- Dashboard -->
     <div class="dashboard" id="dashboard">
         <div class="admin-header">
-            <h1>📊 Papelería Emy - Panel de Administración</h1>
-            <div class="user-info">
-                <span>👤 <span id="userEmail"></span></span>
-                <button class="logout" onclick="logout()">🚪 Cerrar Sesión</button>
-            </div>
+            <h1>📊 Panel de Administración - Papelería Emy</h1>
+            <button class="logout" onclick="logoutSimple()">🚪 Cerrar Sesión</button>
         </div>
         
         <div class="stats" id="stats">
-            <div class="loading">📊 Cargando estadísticas...</div>
+            <div style="text-align:center; padding:20px;">Cargando estadísticas...</div>
         </div>
         
         <div class="filtros">
@@ -533,24 +178,23 @@
                     </tr>
                 </thead>
                 <tbody id="pedidosBody">
-                    <tr><td colspan="7" class="loading">🔐 Inicia sesión para ver los pedidos</td></tr>
+                    <tr><td colspan="7" style="text-align:center;">Inicia sesión para ver los pedidos</td></tr>
                 </tbody>
             </table>
         </div>
     </div>
     
-    <!-- Modal de Detalle -->
     <div id="detalleModal" class="modal">
         <div class="modal-content">
             <h2>📦 Detalle del Pedido</h2>
             <div id="detalleContenido"></div>
-            <button class="cerrar-modal-btn" onclick="cerrarModal()">Cerrar</button>
+            <button onclick="cerrarModal()" style="margin-top:20px; padding:10px; width:100%;">Cerrar</button>
         </div>
     </div>
     
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        // ========== CONFIGURACIÓN DE SUPABASE ==========
+        // Configuración de Supabase
         const SUPABASE_URL = 'https://tngzvcyjonrqbdbxehar.supabase.co'
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRuZ3p2Y3lqb25ycWJkYnhlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI4MjU0MTEsImV4cCI6MjA1ODQwMTQxMX0.p2aV0F3R5XvP_XgKPF-T6d9mTtUBF98gbwV4P_eo8aE'
         
@@ -559,67 +203,38 @@
         let pedidos = []
         let ordenActual = { columna: 'fecha', direccion: 'desc' }
         
-        // Verificar sesión al cargar
-        window.onload = async function() {
-            console.log('🔧 Admin panel cargado')
-            
-            const { data: { session } } = await supabase.auth.getSession()
-            console.log('Sesión actual:', session ? 'Activa' : 'No hay sesión')
-            
-            if (session) {
-                mostrarDashboard(session.user.email)
-            }
-        }
-        
-        function mostrarDashboard(email) {
-            document.getElementById('loginContainer').style.display = 'none'
-            document.getElementById('dashboard').style.display = 'block'
-            document.getElementById('userEmail').textContent = email
-            cargarPedidos()
-        }
-        
-        async function login() {
-            const email = document.getElementById('adminEmail').value.trim()
+        // Login simple con contraseña
+        function loginSimple() {
             const password = document.getElementById('adminPassword').value
-            const messageDiv = document.getElementById('loginMessage')
-            
-            messageDiv.innerHTML = '<div class="success-message">🔄 Conectando...</div>'
-            
-            if (!email || !password) {
-                messageDiv.innerHTML = '<div class="error-message">❌ Completa todos los campos</div>'
-                return
-            }
-            
-            console.log('Intentando login con:', email)
-            
-            const { data, error } = await supabase.auth.signInWithPassword({
-                email: email,
-                password: password
-            })
-            
-            console.log('Respuesta login:', { data, error })
-            
-            if (error) {
-                messageDiv.innerHTML = `<div class="error-message">❌ ${error.message}</div>`
-                return
-            }
-            
-            if (data.session) {
-                messageDiv.innerHTML = '<div class="success-message">✅ Conexión exitosa!</div>'
-                setTimeout(() => {
-                    mostrarDashboard(data.user.email)
-                }, 500)
+            // Contraseña: admin123 (cámbiala por la que quieras)
+            if (password === 'admin123') {
+                localStorage.setItem('admin_logged_in', 'true')
+                document.getElementById('loginForm').style.display = 'none'
+                document.getElementById('dashboard').style.display = 'block'
+                cargarPedidos()
+            } else {
+                document.getElementById('loginError').textContent = '❌ Contraseña incorrecta'
             }
         }
         
-        async function logout() {
-            await supabase.auth.signOut()
+        function logoutSimple() {
+            localStorage.removeItem('admin_logged_in')
             location.reload()
+        }
+        
+        // Verificar sesión al cargar
+        window.onload = function() {
+            const loggedIn = localStorage.getItem('admin_logged_in')
+            if (loggedIn === 'true') {
+                document.getElementById('loginForm').style.display = 'none'
+                document.getElementById('dashboard').style.display = 'block'
+                cargarPedidos()
+            }
         }
         
         async function cargarPedidos() {
             const tbody = document.getElementById('pedidosBody')
-            tbody.innerHTML = '<tr><td colspan="7" class="loading">🔄 Cargando pedidos...</td></tr>'
+            tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;">Cargando pedidos...</td></tr>'
             
             const { data, error } = await supabase
                 .from('pedidos')
@@ -627,8 +242,8 @@
                 .order(ordenActual.columna, { ascending: ordenActual.direccion === 'asc' })
             
             if (error) {
-                console.error('Error al cargar pedidos:', error)
-                tbody.innerHTML = `<tr><td colspan="7" class="loading" style="color:red;">❌ Error: ${error.message}</td></tr>`
+                console.error('Error:', error)
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:red;">Error al cargar pedidos: ' + error.message + '</td></tr>'
                 return
             }
             
@@ -641,14 +256,14 @@
             const tbody = document.getElementById('pedidosBody')
             
             if (!pedidosMostrar || pedidosMostrar.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="7" class="loading">📭 No hay pedidos registrados</td></tr>'
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;">📭 No hay pedidos registrados</td></tr>'
                 return
             }
             
             tbody.innerHTML = pedidosMostrar.map(pedido => `
                 <tr>
-                    <td style="font-weight: bold; font-size: 12px;">${pedido.numero_pedido || 'N/A'}</td>
-                    <td>${pedido.fecha ? new Date(pedido.fecha).toLocaleDateString('es-MX') : 'N/A'}</td>
+                    <td style="font-weight: bold;">${pedido.numero_pedido || 'N/A'}</td>
+                    <td>${pedido.fecha ? new Date(pedido.fecha).toLocaleDateString() : 'N/A'}</td>
                     <td>${pedido.cliente_nombre || 'N/A'}</td>
                     <td>${pedido.cliente_telefono || 'N/A'}</td>
                     <td>$${(pedido.total || 0).toLocaleString()}</td>
@@ -673,16 +288,13 @@
         async function cambiarEstado(numeroPedido, nuevoEstado) {
             const { error } = await supabase
                 .from('pedidos')
-                .update({ 
-                    estado: nuevoEstado, 
-                    fecha_actualizacion: new Date().toISOString() 
-                })
+                .update({ estado: nuevoEstado, fecha_actualizacion: new Date().toISOString() })
                 .eq('numero_pedido', numeroPedido)
             
             if (error) {
-                mostrarToast('❌ Error: ' + error.message, 'error')
+                alert('❌ Error al actualizar estado: ' + error.message)
             } else {
-                mostrarToast('✅ Estado actualizado a: ' + nuevoEstado, 'success')
+                alert('✅ Estado actualizado a: ' + nuevoEstado)
                 cargarPedidos()
             }
         }
@@ -694,10 +306,10 @@
             const modal = document.getElementById('detalleModal')
             const contenido = document.getElementById('detalleContenido')
             
-            let productosHtml = '<h3>📦 Productos:</h3><ul style="margin: 10px 0 10px 20px;">'
+            let productosHtml = '<h3>📦 Productos:</h3><ul>'
             if (pedido.productos && pedido.productos.length > 0) {
                 pedido.productos.forEach(p => {
-                    productosHtml += `<li>${p.nombre || 'Producto'} x${p.cantidad || 1} - $${(p.subtotal || 0).toLocaleString()}</li>`
+                    productosHtml += `<li>${p.nombre} x${p.cantidad} - $${(p.subtotal || 0).toLocaleString()}</li>`
                 })
             } else {
                 productosHtml += '<li>No hay productos registrados</li>'
@@ -705,20 +317,16 @@
             productosHtml += '</ul>'
             
             contenido.innerHTML = `
-                <p><strong>📋 Pedido:</strong> ${pedido.numero_pedido || 'N/A'}</p>
-                <p><strong>📅 Fecha:</strong> ${pedido.fecha ? new Date(pedido.fecha).toLocaleString('es-MX') : 'N/A'}</p>
-                <hr style="margin: 15px 0;">
-                <p><strong>👤 Cliente:</strong> ${pedido.cliente_nombre || 'N/A'}</p>
-                <p><strong>📞 Teléfono:</strong> ${pedido.cliente_telefono || 'N/A'}</p>
-                <p><strong>📍 Dirección:</strong> ${pedido.cliente_direccion || 'N/A'}</p>
-                <p><strong>🏙️ Ciudad:</strong> ${pedido.cliente_ciudad || 'N/A'}, ${pedido.cliente_estado || 'N/A'} CP ${pedido.cliente_cp || 'N/A'}</p>
-                <hr style="margin: 15px 0;">
+                <p><strong>📋 Pedido:</strong> ${pedido.numero_pedido}</p>
+                <p><strong>📅 Fecha:</strong> ${new Date(pedido.fecha).toLocaleString()}</p>
+                <p><strong>👤 Cliente:</strong> ${pedido.cliente_nombre}</p>
+                <p><strong>📞 Teléfono:</strong> ${pedido.cliente_telefono}</p>
+                <p><strong>📍 Dirección:</strong> ${pedido.cliente_direccion}</p>
                 ${productosHtml}
-                <hr style="margin: 15px 0;">
                 <p><strong>💰 Subtotal:</strong> $${(pedido.subtotal || 0).toLocaleString()}</p>
                 <p><strong>🚚 Envío:</strong> $${(pedido.costo_envio || 0).toLocaleString()}</p>
                 <p><strong>💵 Total:</strong> $${(pedido.total || 0).toLocaleString()}</p>
-                <p><strong>📌 Estado:</strong> <span class="badge estado-${pedido.estado || 'pendiente'}">${pedido.estado || 'pendiente'}</span></p>
+                <p><strong>📌 Estado:</strong> ${pedido.estado}</p>
             `
             modal.style.display = 'block'
         }
@@ -743,7 +351,6 @@
             mensaje += `📌 *Estado:* ${pedido.estado}`
             
             window.open(`https://wa.me/52${pedido.cliente_telefono}?text=${mensaje}`)
-            mostrarToast('📱 Abriendo WhatsApp...', 'success')
         }
         
         function actualizarEstadisticas(pedidosLista) {
@@ -818,15 +425,6 @@
         
         function cerrarModal() {
             document.getElementById('detalleModal').style.display = 'none'
-        }
-        
-        function mostrarToast(mensaje, tipo = 'success') {
-            const toast = document.createElement('div')
-            toast.className = 'toast'
-            toast.style.background = tipo === 'success' ? '#28a745' : '#dc3545'
-            toast.textContent = mensaje
-            document.body.appendChild(toast)
-            setTimeout(() => toast.remove(), 3000)
         }
         
         window.onclick = function(event) {
