@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>Panel Admin - Papelería Emy</title>
     <style>
         * {
@@ -12,145 +12,263 @@
         }
         
         body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            background: #f5f5f5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
         }
         
-        .admin-header {
-            background: linear-gradient(135deg, #f5a623, #f39c12);
-            color: white;
-            padding: 20px;
+        /* Pantalla de Login */
+        .login-container {
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
-            flex-wrap: wrap;
-        }
-        
-        .admin-header h1 {
-            font-size: 24px;
+            min-height: 100vh;
+            padding: 20px;
         }
         
         .login-form {
-            max-width: 400px;
-            margin: 100px auto;
             background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
             text-align: center;
+            max-width: 400px;
+            width: 100%;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
         
         .login-form h2 {
             color: #f5a623;
-            margin-bottom: 20px;
+            font-size: 28px;
+            margin-bottom: 10px;
         }
         
-        .login-form p {
+        .login-form .subtitle {
             color: #666;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
+            font-size: 14px;
         }
         
         .login-form input {
             width: 100%;
-            padding: 12px;
+            padding: 14px;
             margin: 10px 0;
             border: 2px solid #e0e0e0;
-            border-radius: 8px;
+            border-radius: 10px;
             font-size: 16px;
+            transition: all 0.3s;
         }
         
         .login-form input:focus {
             outline: none;
             border-color: #f5a623;
+            box-shadow: 0 0 0 3px rgba(245,166,35,0.1);
         }
         
         .login-form button {
             width: 100%;
-            padding: 12px;
-            background: #f5a623;
+            padding: 14px;
+            background: linear-gradient(135deg, #f5a623, #f39c12);
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             cursor: pointer;
             font-size: 16px;
-            margin-top: 10px;
             font-weight: bold;
+            margin-top: 15px;
+            transition: transform 0.2s;
         }
         
         .login-form button:hover {
-            background: #e67e22;
+            transform: translateY(-2px);
         }
         
+        .login-form button:active {
+            transform: translateY(0);
+        }
+        
+        .error-message {
+            color: #dc3545;
+            margin-top: 15px;
+            font-size: 14px;
+            padding: 10px;
+            background: #ffe6e6;
+            border-radius: 8px;
+        }
+        
+        .success-message {
+            color: #28a745;
+            margin-top: 15px;
+            font-size: 14px;
+            padding: 10px;
+            background: #e6ffe6;
+            border-radius: 8px;
+        }
+        
+        .volver-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #f5a623;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        
+        .volver-link:hover {
+            text-decoration: underline;
+        }
+        
+        /* Dashboard */
         .dashboard {
             display: none;
+            animation: fadeIn 0.5s ease;
         }
         
+        .admin-header {
+            background: linear-gradient(135deg, #f5a623, #f39c12);
+            color: white;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .admin-header h1 {
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: rgba(255,255,255,0.2);
+            padding: 8px 15px;
+            border-radius: 30px;
+        }
+        
+        .user-info span {
+            font-size: 14px;
+        }
+        
+        .logout {
+            background: rgba(255,255,255,0.3);
+            padding: 6px 15px;
+            border: none;
+            border-radius: 20px;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .logout:hover {
+            background: rgba(255,255,255,0.5);
+        }
+        
+        /* Estadísticas */
         .stats {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 20px;
-            padding: 20px;
+            padding: 25px;
+            max-width: 1400px;
+            margin: 0 auto;
         }
         
         .stat-card {
             background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             text-align: center;
+            transition: transform 0.2s;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
         }
         
         .stat-card h4 {
             color: #666;
             font-size: 14px;
             margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
         
         .stat-card h3 {
-            font-size: 32px;
+            font-size: 36px;
             color: #f5a623;
             margin: 10px 0;
         }
         
+        /* Filtros */
         .filtros {
-            padding: 20px;
             background: white;
-            margin: 20px;
-            border-radius: 10px;
+            margin: 20px 25px;
+            padding: 20px;
+            border-radius: 15px;
             display: flex;
-            gap: 10px;
+            gap: 15px;
             flex-wrap: wrap;
             align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
         
         .filtros input, .filtros select {
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
             font-size: 14px;
             flex: 1;
-            min-width: 150px;
+            min-width: 180px;
+            transition: all 0.3s;
+        }
+        
+        .filtros input:focus, .filtros select:focus {
+            outline: none;
+            border-color: #f5a623;
         }
         
         .filtros button {
-            padding: 10px 20px;
+            padding: 12px 25px;
             background: #f5a623;
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 10px;
             cursor: pointer;
             font-weight: bold;
+            transition: all 0.3s;
         }
         
         .filtros button:hover {
             background: #e67e22;
+            transform: scale(1.02);
         }
         
+        /* Tabla */
         .pedidos-table {
             background: white;
-            margin: 20px;
-            border-radius: 10px;
+            margin: 20px 25px;
+            border-radius: 15px;
             overflow-x: auto;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
         
         table {
@@ -158,34 +276,38 @@
             border-collapse: collapse;
         }
         
-        th, td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        
         th {
             background: #f5a623;
             color: white;
+            padding: 15px 12px;
+            text-align: left;
             cursor: pointer;
             user-select: none;
+            font-weight: 600;
         }
         
         th:hover {
             background: #e67e22;
         }
         
-        tr:hover {
-            background: #f9f9f9;
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #f0f0f0;
         }
         
+        tr:hover {
+            background: #fef9f0;
+        }
+        
+        /* Estados */
         .estado-select {
-            padding: 5px 10px;
+            padding: 6px 12px;
             border-radius: 20px;
             border: none;
             font-size: 12px;
             font-weight: bold;
             cursor: pointer;
+            background: #f0f0f0;
         }
         
         .estado-pendiente { background: #ffc107; color: #000; }
@@ -194,13 +316,16 @@
         .estado-entregado { background: #28a745; color: white; }
         .estado-cancelado { background: #dc3545; color: white; }
         
+        /* Botones de acción */
         .btn-estado {
-            padding: 5px 10px;
-            margin: 0 2px;
+            padding: 6px 12px;
+            margin: 0 3px;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
             font-size: 12px;
+            font-weight: 500;
+            transition: all 0.2s;
         }
         
         .btn-ver {
@@ -208,156 +333,176 @@
             color: white;
         }
         
+        .btn-ver:hover {
+            background: #e67e22;
+        }
+        
         .btn-wa {
             background: #25D366;
             color: white;
         }
         
-        .logout {
-            background: rgba(255,255,255,0.2);
-            padding: 8px 15px;
-            border: none;
-            border-radius: 5px;
-            color: white;
-            cursor: pointer;
-            font-size: 14px;
+        .btn-wa:hover {
+            background: #20b858;
         }
         
-        .logout:hover {
-            background: rgba(255,255,255,0.3);
-        }
-        
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .error-message {
-            color: #dc3545;
-            margin-top: 10px;
-            font-size: 14px;
-        }
-        
-        .loading {
-            text-align: center;
-            padding: 40px;
-            color: #666;
-        }
-        
+        /* Modal */
         .modal {
             display: none;
             position: fixed;
-            z-index: 1000;
+            z-index: 2000;
             left: 0;
             top: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.5);
+            background: rgba(0,0,0,0.6);
+            animation: fadeIn 0.2s ease;
         }
         
         .modal-content {
             background: white;
             margin: 50px auto;
-            padding: 20px;
-            border-radius: 10px;
+            padding: 25px;
+            border-radius: 20px;
             width: 90%;
-            max-width: 500px;
-            max-height: 80%;
+            max-width: 550px;
+            max-height: 85%;
             overflow-y: auto;
+            animation: slideIn 0.3s ease;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
         }
         
         .modal-content h2 {
             color: #f5a623;
             margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
         }
         
         .modal-content p {
-            margin: 10px 0;
+            margin: 12px 0;
             line-height: 1.5;
         }
         
         .modal-content ul {
-            margin: 10px 0 10px 20px;
+            margin: 12px 0 12px 25px;
         }
         
         .modal-content li {
-            margin: 5px 0;
+            margin: 8px 0;
         }
         
         .cerrar-modal-btn {
-            margin-top: 20px;
-            padding: 10px;
+            margin-top: 25px;
+            padding: 12px;
             background: #6c757d;
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 10px;
             cursor: pointer;
             width: 100%;
+            font-size: 16px;
+            font-weight: bold;
         }
         
         .cerrar-modal-btn:hover {
             background: #5a6268;
         }
         
-        .volver-link {
-            display: inline-block;
-            margin-top: 15px;
-            color: #f5a623;
-            text-decoration: none;
+        .loading {
+            text-align: center;
+            padding: 50px;
+            color: #999;
+            font-size: 16px;
         }
         
-        .volver-link:hover {
-            text-decoration: underline;
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: bold;
         }
         
         @media (max-width: 768px) {
-            th, td {
-                font-size: 12px;
-                padding: 8px;
+            .admin-header h1 { font-size: 18px; }
+            .stats { padding: 15px; gap: 12px; }
+            .stat-card h3 { font-size: 24px; }
+            .filtros { margin: 15px; }
+            .pedidos-table { margin: 15px; }
+            th, td { font-size: 12px; padding: 8px; }
+            .btn-estado { padding: 4px 8px; font-size: 10px; }
+        }
+        
+        /* Notificación flotante */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #28a745;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 10px;
+            z-index: 3000;
+            animation: slideUp 0.3s ease, fadeOut 3s ease forwards;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            font-size: 14px;
+        }
+        
+        @keyframes slideUp {
+            from {
+                transform: translateY(100px);
+                opacity: 0;
             }
-            
-            .stats {
-                grid-template-columns: 1fr 1fr;
-                gap: 10px;
-                padding: 10px;
+            to {
+                transform: translateY(0);
+                opacity: 1;
             }
-            
-            .filtros {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            
-            .admin-header h1 {
-                font-size: 18px;
-            }
+        }
+        
+        @keyframes fadeOut {
+            0% { opacity: 1; visibility: visible; }
+            70% { opacity: 1; }
+            100% { opacity: 0; visibility: hidden; }
         }
     </style>
 </head>
 <body>
     <!-- Pantalla de Login -->
-    <div class="login-form" id="loginForm">
-        <h2>🔐 Panel Administrador</h2>
-        <p>Ingresa con tu cuenta de Supabase</p>
-        <input type="email" id="adminEmail" placeholder="Email" autocomplete="email" value="papeleriaemy_33@hotmail.es">
-        <input type="password" id="adminPassword" placeholder="Contraseña">
-        <button onclick="login()">Acceder al panel</button>
-        <div id="loginError" class="error-message"></div>
-        <a href="index.html" class="volver-link">← Volver a la tienda</a>
+    <div class="login-container" id="loginContainer">
+        <div class="login-form">
+            <h2>🔐 Panel Administrador</h2>
+            <p class="subtitle">Ingresa con tu cuenta de Supabase</p>
+            <input type="email" id="adminEmail" placeholder="Correo electrónico" autocomplete="email">
+            <input type="password" id="adminPassword" placeholder="Contraseña" onkeypress="if(event.key==='Enter') login()">
+            <button onclick="login()">Acceder al panel</button>
+            <div id="loginMessage"></div>
+            <a href="index.html" class="volver-link">← Volver a la tienda</a>
+        </div>
     </div>
     
     <!-- Dashboard -->
     <div class="dashboard" id="dashboard">
         <div class="admin-header">
-            <h1>📊 Panel de Administración - Papelería Emy</h1>
+            <h1>📊 Papelería Emy - Panel de Administración</h1>
             <div class="user-info">
-                <span id="userEmail"></span>
+                <span>👤 <span id="userEmail"></span></span>
                 <button class="logout" onclick="logout()">🚪 Cerrar Sesión</button>
             </div>
         </div>
         
         <div class="stats" id="stats">
-            <div class="loading">Cargando estadísticas...</div>
+            <div class="loading">📊 Cargando estadísticas...</div>
         </div>
         
         <div class="filtros">
@@ -388,7 +533,7 @@
                     </tr>
                 </thead>
                 <tbody id="pedidosBody">
-                    <tr><td colspan="7" class="loading">Inicia sesión para ver los pedidos</td></tr>
+                    <tr><td colspan="7" class="loading">🔐 Inicia sesión para ver los pedidos</td></tr>
                 </tbody>
             </table>
         </div>
@@ -416,42 +561,54 @@
         
         // Verificar sesión al cargar
         window.onload = async function() {
+            console.log('🔧 Admin panel cargado')
+            
             const { data: { session } } = await supabase.auth.getSession()
+            console.log('Sesión actual:', session ? 'Activa' : 'No hay sesión')
+            
             if (session) {
-                document.getElementById('loginForm').style.display = 'none'
-                document.getElementById('dashboard').style.display = 'block'
-                document.getElementById('userEmail').textContent = session.user.email
-                cargarPedidos()
+                mostrarDashboard(session.user.email)
             }
         }
         
+        function mostrarDashboard(email) {
+            document.getElementById('loginContainer').style.display = 'none'
+            document.getElementById('dashboard').style.display = 'block'
+            document.getElementById('userEmail').textContent = email
+            cargarPedidos()
+        }
+        
         async function login() {
-            const email = document.getElementById('adminEmail').value
+            const email = document.getElementById('adminEmail').value.trim()
             const password = document.getElementById('adminPassword').value
-            const errorDiv = document.getElementById('loginError')
+            const messageDiv = document.getElementById('loginMessage')
             
-            errorDiv.textContent = ''
+            messageDiv.innerHTML = '<div class="success-message">🔄 Conectando...</div>'
             
             if (!email || !password) {
-                errorDiv.textContent = '❌ Completa todos los campos'
+                messageDiv.innerHTML = '<div class="error-message">❌ Completa todos los campos</div>'
                 return
             }
+            
+            console.log('Intentando login con:', email)
             
             const { data, error } = await supabase.auth.signInWithPassword({
                 email: email,
                 password: password
             })
             
+            console.log('Respuesta login:', { data, error })
+            
             if (error) {
-                errorDiv.textContent = '❌ ' + error.message
+                messageDiv.innerHTML = `<div class="error-message">❌ ${error.message}</div>`
                 return
             }
             
             if (data.session) {
-                document.getElementById('loginForm').style.display = 'none'
-                document.getElementById('dashboard').style.display = 'block'
-                document.getElementById('userEmail').textContent = data.user.email
-                cargarPedidos()
+                messageDiv.innerHTML = '<div class="success-message">✅ Conexión exitosa!</div>'
+                setTimeout(() => {
+                    mostrarDashboard(data.user.email)
+                }, 500)
             }
         }
         
@@ -462,7 +619,7 @@
         
         async function cargarPedidos() {
             const tbody = document.getElementById('pedidosBody')
-            tbody.innerHTML = '<tr><td colspan="7" class="loading">Cargando pedidos...</td></tr>'
+            tbody.innerHTML = '<tr><td colspan="7" class="loading">🔄 Cargando pedidos...</td></tr>'
             
             const { data, error } = await supabase
                 .from('pedidos')
@@ -470,8 +627,8 @@
                 .order(ordenActual.columna, { ascending: ordenActual.direccion === 'asc' })
             
             if (error) {
-                console.error('Error:', error)
-                tbody.innerHTML = '<tr><td colspan="7" class="loading" style="color:red;">Error al cargar pedidos: ' + error.message + '</td></tr>'
+                console.error('Error al cargar pedidos:', error)
+                tbody.innerHTML = `<tr><td colspan="7" class="loading" style="color:red;">❌ Error: ${error.message}</td></tr>`
                 return
             }
             
@@ -490,13 +647,14 @@
             
             tbody.innerHTML = pedidosMostrar.map(pedido => `
                 <tr>
-                    <td style="font-weight: bold;">${pedido.numero_pedido}</td>
-                    <td>${new Date(pedido.fecha).toLocaleDateString()}</td>
-                    <td>${pedido.cliente_nombre}</td>
-                    <td>${pedido.cliente_telefono}</td>
-                    <td>$${pedido.total.toLocaleString()}</td>
+                    <td style="font-weight: bold; font-size: 12px;">${pedido.numero_pedido || 'N/A'}</td>
+                    <td>${pedido.fecha ? new Date(pedido.fecha).toLocaleDateString('es-MX') : 'N/A'}</td>
+                    <td>${pedido.cliente_nombre || 'N/A'}</td>
+                    <td>${pedido.cliente_telefono || 'N/A'}</td>
+                    <td>$${(pedido.total || 0).toLocaleString()}</td>
                     <td>
-                        <select class="estado-select estado-${pedido.estado}" onchange="cambiarEstado('${pedido.numero_pedido}', this.value)">
+                        <select class="estado-select estado-${pedido.estado || 'pendiente'}" 
+                                onchange="cambiarEstado('${pedido.numero_pedido}', this.value)">
                             <option value="pendiente" ${pedido.estado === 'pendiente' ? 'selected' : ''}>⏳ Pendiente</option>
                             <option value="procesando" ${pedido.estado === 'procesando' ? 'selected' : ''}>⚙️ Procesando</option>
                             <option value="enviado" ${pedido.estado === 'enviado' ? 'selected' : ''}>🚚 Enviado</option>
@@ -506,7 +664,7 @@
                     </td>
                     <td>
                         <button class="btn-estado btn-ver" onclick="verDetalle('${pedido.numero_pedido}')">📋 Ver</button>
-                        <button class="btn-estado btn-wa" onclick="copiarWhatsApp('${pedido.numero_pedido}')">💬 WhatsApp</button>
+                        <button class="btn-estado btn-wa" onclick="copiarWhatsApp('${pedido.numero_pedido}')">💬 WA</button>
                     </td>
                 </tr>
             `).join('')
@@ -522,9 +680,9 @@
                 .eq('numero_pedido', numeroPedido)
             
             if (error) {
-                alert('❌ Error al actualizar estado: ' + error.message)
+                mostrarToast('❌ Error: ' + error.message, 'error')
             } else {
-                mostrarNotificacion('✅ Estado actualizado correctamente')
+                mostrarToast('✅ Estado actualizado a: ' + nuevoEstado, 'success')
                 cargarPedidos()
             }
         }
@@ -539,7 +697,7 @@
             let productosHtml = '<h3>📦 Productos:</h3><ul style="margin: 10px 0 10px 20px;">'
             if (pedido.productos && pedido.productos.length > 0) {
                 pedido.productos.forEach(p => {
-                    productosHtml += `<li>${p.nombre} x${p.cantidad} - $${p.subtotal.toLocaleString()}</li>`
+                    productosHtml += `<li>${p.nombre || 'Producto'} x${p.cantidad || 1} - $${(p.subtotal || 0).toLocaleString()}</li>`
                 })
             } else {
                 productosHtml += '<li>No hay productos registrados</li>'
@@ -547,17 +705,20 @@
             productosHtml += '</ul>'
             
             contenido.innerHTML = `
-                <p><strong>📋 Pedido:</strong> ${pedido.numero_pedido}</p>
-                <p><strong>📅 Fecha:</strong> ${new Date(pedido.fecha).toLocaleString()}</p>
-                <p><strong>👤 Cliente:</strong> ${pedido.cliente_nombre}</p>
-                <p><strong>📞 Teléfono:</strong> ${pedido.cliente_telefono}</p>
-                <p><strong>📍 Dirección:</strong> ${pedido.cliente_direccion}</p>
-                <p><strong>🏙️ Ciudad:</strong> ${pedido.cliente_ciudad}, ${pedido.cliente_estado} CP ${pedido.cliente_cp}</p>
+                <p><strong>📋 Pedido:</strong> ${pedido.numero_pedido || 'N/A'}</p>
+                <p><strong>📅 Fecha:</strong> ${pedido.fecha ? new Date(pedido.fecha).toLocaleString('es-MX') : 'N/A'}</p>
+                <hr style="margin: 15px 0;">
+                <p><strong>👤 Cliente:</strong> ${pedido.cliente_nombre || 'N/A'}</p>
+                <p><strong>📞 Teléfono:</strong> ${pedido.cliente_telefono || 'N/A'}</p>
+                <p><strong>📍 Dirección:</strong> ${pedido.cliente_direccion || 'N/A'}</p>
+                <p><strong>🏙️ Ciudad:</strong> ${pedido.cliente_ciudad || 'N/A'}, ${pedido.cliente_estado || 'N/A'} CP ${pedido.cliente_cp || 'N/A'}</p>
+                <hr style="margin: 15px 0;">
                 ${productosHtml}
-                <p><strong>💰 Subtotal:</strong> $${pedido.subtotal.toLocaleString()}</p>
-                <p><strong>🚚 Envío:</strong> $${pedido.costo_envio.toLocaleString()}</p>
-                <p><strong>💵 Total:</strong> $${pedido.total.toLocaleString()}</p>
-                <p><strong>📌 Estado:</strong> <span class="estado-select estado-${pedido.estado}" style="display: inline-block;">${pedido.estado}</span></p>
+                <hr style="margin: 15px 0;">
+                <p><strong>💰 Subtotal:</strong> $${(pedido.subtotal || 0).toLocaleString()}</p>
+                <p><strong>🚚 Envío:</strong> $${(pedido.costo_envio || 0).toLocaleString()}</p>
+                <p><strong>💵 Total:</strong> $${(pedido.total || 0).toLocaleString()}</p>
+                <p><strong>📌 Estado:</strong> <span class="badge estado-${pedido.estado || 'pendiente'}">${pedido.estado || 'pendiente'}</span></p>
             `
             modal.style.display = 'block'
         }
@@ -574,15 +735,15 @@
             
             if (pedido.productos && pedido.productos.length > 0) {
                 pedido.productos.forEach(p => {
-                    mensaje += `• ${p.nombre} x${p.cantidad} - $${p.subtotal.toLocaleString()}%0A`
+                    mensaje += `• ${p.nombre} x${p.cantidad} - $${(p.subtotal || 0).toLocaleString()}%0A`
                 })
             }
             
-            mensaje += `%0A💰 *Total:* $${pedido.total.toLocaleString()}%0A`
+            mensaje += `%0A💰 *Total:* $${(pedido.total || 0).toLocaleString()}%0A`
             mensaje += `📌 *Estado:* ${pedido.estado}`
             
             window.open(`https://wa.me/52${pedido.cliente_telefono}?text=${mensaje}`)
-            mostrarNotificacion('📱 Abriendo WhatsApp...')
+            mostrarToast('📱 Abriendo WhatsApp...', 'success')
         }
         
         function actualizarEstadisticas(pedidosLista) {
@@ -590,6 +751,7 @@
             const totalVentas = pedidosLista.reduce((sum, p) => sum + (p.total || 0), 0)
             const pedidosPendientes = pedidosLista.filter(p => p.estado === 'pendiente').length
             const pedidosHoy = pedidosLista.filter(p => {
+                if (!p.fecha) return false
                 const hoy = new Date().toDateString()
                 return new Date(p.fecha).toDateString() === hoy
             }).length
@@ -619,7 +781,7 @@
             const estado = document.getElementById('estadoFilter').value
             const fecha = document.getElementById('fechaFilter').value
             
-            let filtrados = pedidos
+            let filtrados = [...pedidos]
             
             if (search) {
                 filtrados = filtrados.filter(p => 
@@ -635,6 +797,7 @@
             
             if (fecha) {
                 filtrados = filtrados.filter(p => {
+                    if (!p.fecha) return false
                     const fechaPedido = new Date(p.fecha).toISOString().split('T')[0]
                     return fechaPedido === fecha
                 })
@@ -657,31 +820,13 @@
             document.getElementById('detalleModal').style.display = 'none'
         }
         
-        function mostrarNotificacion(mensaje) {
-            const notif = document.createElement('div')
-            notif.textContent = mensaje
-            notif.style.cssText = `
-                position: fixed;
-                bottom: 20px;
-                right: 20px;
-                background: #28a745;
-                color: white;
-                padding: 12px 20px;
-                border-radius: 8px;
-                z-index: 2000;
-                animation: fadeOut 2s ease forwards;
-            `
-            const style = document.createElement('style')
-            style.textContent = `
-                @keyframes fadeOut {
-                    0% { opacity: 1; }
-                    70% { opacity: 1; }
-                    100% { opacity: 0; visibility: hidden; }
-                }
-            `
-            document.head.appendChild(style)
-            document.body.appendChild(notif)
-            setTimeout(() => notif.remove(), 2000)
+        function mostrarToast(mensaje, tipo = 'success') {
+            const toast = document.createElement('div')
+            toast.className = 'toast'
+            toast.style.background = tipo === 'success' ? '#28a745' : '#dc3545'
+            toast.textContent = mensaje
+            document.body.appendChild(toast)
+            setTimeout(() => toast.remove(), 3000)
         }
         
         window.onclick = function(event) {
