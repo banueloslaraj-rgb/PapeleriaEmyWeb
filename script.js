@@ -1,11 +1,21 @@
+// ========== CONFIGURACIÓN DE SUPABASE ==========
+// ⚠️ REEMPLAZA ESTOS DATOS CON LOS TUYOS DE SUPABASE ⚠️
+const SUPABASE_URL = 'https://tngzvcyjonrqbdbxehar.supabase.co'      // Tu URL de Supabase
+const SUPABASE_ANON_KEY = 'tngzvcyjonrqbdbxehar'                // Tu clave pública anon
+
+// Inicializar Supabase
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+console.log('🚀 Supabase inicializado')
+
+// ========== VARIABLES GLOBALES ==========
 let carrito = []
-let costoEnvio = 50 // Costo de envío para papelería (ajustado)
+let costoEnvio = 50
 let productosGlobales = []
 
 // ⚡ VERSIÓN ACTUAL
-const VERSION = '2.2.0'; // Versión para Papelería Emy
+const VERSION = '2.3.0'
 
-// 🎯 ÍCONOS POR CATEGORÍA (actualizado para papelería)
+// 🎯 ÍCONOS POR CATEGORÍA
 const iconosCategoria = {
     papeleria: '📄',
     servicios: '🛠️',
@@ -17,11 +27,11 @@ const iconosCategoria = {
     default: '📦'
 };
 
-// Obtener ícono según el tipo
 function getIcono(tipo) {
     return iconosCategoria[tipo] || iconosCategoria.default;
 }
 
+// ========== CARGAR PRODUCTOS ==========
 async function cargarProductos(){
     try {
         console.log('🔄 Cargando productos - Papelería Emy Versión:', VERSION);
@@ -42,7 +52,7 @@ async function cargarProductos(){
         
         mostrar(productosGlobales);
         
-        console.log(`✅ Productos cargados: ${productosGlobales.length} productos - ${new Date().toLocaleString()}`);
+        console.log(`✅ Productos cargados: ${productosGlobales.length} productos`);
         
     } catch (error) {
         console.error('❌ Error cargando productos:', error);
@@ -248,7 +258,8 @@ function mostrarFormularioEnvio() {
     modalEnvio.style.display = 'block'
 }
 
-function enviarPedidoWhatsApp() {
+// ========== FUNCIÓN PRINCIPAL: ENVIAR PEDIDO Y GUARDAR ==========
+async function enviarPedidoWhatsApp() {
     const nombre = document.getElementById('nombre')?.value
     const telefono = document.getElementById('telefono')?.value
     const direccion = document.getElementById('direccion')?.value
@@ -264,7 +275,62 @@ function enviarPedidoWhatsApp() {
     const subtotal = carrito.reduce((sum, item) => sum + (item.precio * item.cantidad), 0)
     const total = subtotal + costoEnvio
     
-    let mensaje = "🛒 *NUEVO PEDIDO - PAPELERÍA EMY*%0A%0A"
+    // Preparar productos para guardar
+    const productosGuardar = carrito.map(item => ({
+        nombre: item.nombre,
+        tipo: item.tipo,
+        cantidad: item.cantidad,
+        precio_unitario: item.precio,
+        subtotal: item.precio * item.cantidad
+    }))
+    
+    // Generar número de pedido único
+    const numeroPedido = `PED-${Date.now()}-${Math.floor(Math.random() * 1000)}`
+    
+    // Datos del pedido
+    const pedidoData = {
+        numero_pedido: numeroPedido,
+        cliente_nombre: nombre,
+        cliente_telefono: telefono,
+        cliente_direccion: direccion,
+        cliente_ciudad: ciudad,
+        cliente_estado: estado,
+        cliente_cp: cp,
+        productos: productosGuardar,
+        subtotal: subtotal,
+        costo_envio: costoEnvio,
+        total: total,
+        estado: 'pendiente',
+        fecha: new Date().toISOString()
+    }
+    
+    // Mostrar notificación de guardado
+    mostrarNotificacion('💾 Guardando pedido...')
+    
+    // Guardar en Supabase
+    try {
+        const { data, error } = await supabaseClient
+            .from('pedidos')
+            .insert([pedidoData])
+            .select()
+        
+        if (error) {
+            console.error('Error al guardar en Supabase:', error)
+            mostrarNotificacion('⚠️ Pedido guardado localmente (error en nube)')
+            guardarPedidoLocal(pedidoData)
+        } else {
+            console.log('✅ Pedido guardado en Supabase:', data)
+            mostrarNotificacion(`✅ Pedido ${numeroPedido} guardado correctamente`)
+        }
+    } catch (error) {
+        console.error('Error:', error)
+        guardarPedidoLocal(pedidoData)
+        mostrarNotificacion('⚠️ Pedido guardado localmente')
+    }
+    
+    // Preparar mensaje de WhatsApp
+    let mensaje = "🛒 *NUEVO PEDIDO - PAPELERÍA EMY*%0A"
+    mensaje += `📋 *NÚMERO DE PEDIDO:* ${numeroPedido}%0A%0A`
     mensaje += "*PRODUCTOS/SERVICIOS:*%0A"
     
     carrito.forEach(item => {
@@ -285,13 +351,22 @@ function enviarPedidoWhatsApp() {
     mensaje += "¡Gracias por tu compra! 🙌%0A"
     mensaje += "📍 Papelería Emy - ¡Siempre contigo! 📚"
     
-    // Teléfono actualizado para Papelería Emy
+    // Abrir WhatsApp
     window.open(`https://wa.me/523111198148?text=${mensaje}`)
     
+    // Limpiar carrito y cerrar modal
     cerrarModalEnvio()
     carrito = []
     actualizarContadorCarrito()
-    mostrarNotificacion('✅ Pedido enviado por WhatsApp')
+}
+
+// Guardar pedidos localmente como respaldo
+function guardarPedidoLocal(pedido) {
+    const pedidosGuardados = localStorage.getItem('pedidos_backup')
+    let pedidos = pedidosGuardados ? JSON.parse(pedidosGuardados) : []
+    pedidos.push(pedido)
+    localStorage.setItem('pedidos_backup', JSON.stringify(pedidos))
+    console.log('💾 Pedido guardado localmente, total:', pedidos.length)
 }
 
 function cambiarCantidad(index, cambio) {

@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Admin - Papelería Emy</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f5f5f5;
+        }
+        
+        .admin-header {
+            background: linear-gradient(135deg, #f5a623, #f39c12);
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .admin-header h1 {
+            font-size: 24px;
+        }
+        
+        .login-form {
+            max-width: 400px;
+            margin: 100px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .login-form h2 {
+            color: #f5a623;
+            margin-bottom: 20px;
+        }
+        
+        .login-form p {
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        .login-form input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        
+        .login-form input:focus {
+            outline: none;
+            border-color: #f5a623;
+        }
+        
+        .login-form button {
+            width: 100%;
+            padding: 12px;
+            background: #f5a623;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        
+        .login-form button:hover {
+            background: #e67e22;
+        }
+        
+        .dashboard {
+            display: none;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .stat-card h4 {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        
+        .stat-card h3 {
+            font-size: 32px;
+            color: #f5a623;
+            margin: 10px 0;
+        }
+        
+        .filtros {
+            padding: 20px;
+            background: white;
+            margin: 20px;
+            border-radius: 10px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        
+        .filtros input, .filtros select {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            flex: 1;
+            min-width: 150px;
+        }
+        
+        .filtros button {
+            padding: 10px 20px;
+            background: #f5a623;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .filtros button:hover {
+            background: #e67e22;
+        }
+        
+        .pedidos-table {
+            background: white;
+            margin: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        th {
+            background: #f5a623;
+            color: white;
+            cursor: pointer;
+            user-select: none;
+        }
+        
+        th:hover {
+            background: #e67e22;
+        }
+        
+        tr:hover {
+            background: #f9f9f9;
+        }
+        
+        .estado-select {
+            padding: 5px 10px;
+            border-radius: 20px;
+            border: none;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .estado-pendiente { background: #ffc107; color: #000; }
+        .estado-procesando { background: #17a2b8; color: white; }
+        .estado-enviado { background: #007bff; color: white; }
+        .estado-entregado { background: #28a745; color: white; }
+        .estado-cancelado { background: #dc3545; color: white; }
+        
+        .btn-estado {
+            padding: 5px 10px;
+            margin: 0 2px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        
+        .btn-ver {
+            background: #f5a623;
+            color: white;
+        }
+        
+        .btn-wa {
+            background: #25D366;
+            color: white;
+        }
+        
+        .logout {
+            background: rgba(255,255,255,0.2);
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .logout:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .error-message {
+            color: #dc3545;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+        }
+        
+        .modal-content {
+            background: white;
+            margin: 50px auto;
+            padding: 20px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 80%;
+            overflow-y: auto;
+        }
+        
+        .modal-content h2 {
+            color: #f5a623;
+            margin-bottom: 20px;
+        }
+        
+        .modal-content p {
+            margin: 10px 0;
+            line-height: 1.5;
+        }
+        
+        .modal-content ul {
+            margin: 10px 0 10px 20px;
+        }
+        
+        .modal-content li {
+            margin: 5px 0;
+        }
+        
+        .cerrar-modal-btn {
+            margin-top: 20px;
+            padding: 10px;
+            background: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+        
+        .cerrar-modal-btn:hover {
+            background: #5a6268;
+        }
+        
+        .volver-link {
+            display: inline-block;
+            margin-top: 15px;
+            color: #f5a623;
+            text-decoration: none;
+        }
+        
+        .volver-link:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            th, td {
+                font-size: 12px;
+                padding: 8px;
+            }
+            
+            .stats {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+                padding: 10px;
+            }
+            
+            .filtros {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .admin-header h1 {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Pantalla de Login -->
+    <div class="login-form" id="loginForm">
+        <h2>🔐 Panel Administrador</h2>
+        <p>Ingresa con tu cuenta de Supabase</p>
+        <input type="email" id="adminEmail" placeholder="Email" autocomplete="email" value="papeleriaemy_33@hotmail.es">
+        <input type="password" id="adminPassword" placeholder="Contraseña">
+        <button onclick="login()">Acceder al panel</button>
+        <div id="loginError" class="error-message"></div>
+        <a href="index.html" class="volver-link">← Volver a la tienda</a>
+    </div>
+    
+    <!-- Dashboard -->
+    <div class="dashboard" id="dashboard">
+        <div class="admin-header">
+            <h1>📊 Panel de Administración - Papelería Emy</h1>
+            <div class="user-info">
+                <span id="userEmail"></span>
+                <button class="logout" onclick="logout()">🚪 Cerrar Sesión</button>
+            </div>
+        </div>
+        
+        <div class="stats" id="stats">
+            <div class="loading">Cargando estadísticas...</div>
+        </div>
+        
+        <div class="filtros">
+            <input type="text" id="searchInput" placeholder="🔍 Buscar por nombre o teléfono..." onkeyup="filtrarPedidos()">
+            <select id="estadoFilter" onchange="filtrarPedidos()">
+                <option value="">📌 Todos los estados</option>
+                <option value="pendiente">⏳ Pendiente</option>
+                <option value="procesando">⚙️ Procesando</option>
+                <option value="enviado">🚚 Enviado</option>
+                <option value="entregado">✅ Entregado</option>
+                <option value="cancelado">❌ Cancelado</option>
+            </select>
+            <input type="date" id="fechaFilter" onchange="filtrarPedidos()">
+            <button onclick="cargarPedidos()">🔄 Actualizar</button>
+        </div>
+        
+        <div class="pedidos-table">
+            <table id="pedidosTable">
+                <thead>
+                    <tr>
+                        <th onclick="ordenarPor('numero_pedido')">📋 Pedido</th>
+                        <th onclick="ordenarPor('fecha')">📅 Fecha</th>
+                        <th onclick="ordenarPor('cliente_nombre')">👤 Cliente</th>
+                        <th onclick="ordenarPor('cliente_telefono')">📞 Teléfono</th>
+                        <th onclick="ordenarPor('total')">💰 Total</th>
+                        <th onclick="ordenarPor('estado')">📌 Estado</th>
+                        <th>🔧 Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="pedidosBody">
+                    <tr><td colspan="7" class="loading">Inicia sesión para ver los pedidos</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <!-- Modal de Detalle -->
+    <div id="detalleModal" class="modal">
+        <div class="modal-content">
+            <h2>📦 Detalle del Pedido</h2>
+            <div id="detalleContenido"></div>
+            <button class="cerrar-modal-btn" onclick="cerrarModal()">Cerrar</button>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        // ========== CONFIGURACIÓN DE SUPABASE ==========
+        const SUPABASE_URL = 'https://tngzvcyjonrqbdbxehar.supabase.co'
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRuZ3p2Y3lqb25ycWJkYnhlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI4MjU0MTEsImV4cCI6MjA1ODQwMTQxMX0.p2aV0F3R5XvP_XgKPF-T6d9mTtUBF98gbwV4P_eo8aE'
+        
+        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+        
+        let pedidos = []
+        let ordenActual = { columna: 'fecha', direccion: 'desc' }
+        
+        // Verificar sesión al cargar
+        window.onload = async function() {
+            const { data: { session } } = await supabase.auth.getSession()
+            if (session) {
+                document.getElementById('loginForm').style.display = 'none'
+                document.getElementById('dashboard').style.display = 'block'
+                document.getElementById('userEmail').textContent = session.user.email
+                cargarPedidos()
+            }
+        }
+        
+        async function login() {
+            const email = document.getElementById('adminEmail').value
+            const password = document.getElementById('adminPassword').value
+            const errorDiv = document.getElementById('loginError')
+            
+            errorDiv.textContent = ''
+            
+            if (!email || !password) {
+                errorDiv.textContent = '❌ Completa todos los campos'
+                return
+            }
+            
+            const { data, error } = await supabase.auth.signInWithPassword({
+                email: email,
+                password: password
+            })
+            
+            if (error) {
+                errorDiv.textContent = '❌ ' + error.message
+                return
+            }
+            
+            if (data.session) {
+                document.getElementById('loginForm').style.display = 'none'
+                document.getElementById('dashboard').style.display = 'block'
+                document.getElementById('userEmail').textContent = data.user.email
+                cargarPedidos()
+            }
+        }
+        
+        async function logout() {
+            await supabase.auth.signOut()
+            location.reload()
+        }
+        
+        async function cargarPedidos() {
+            const tbody = document.getElementById('pedidosBody')
+            tbody.innerHTML = '<tr><td colspan="7" class="loading">Cargando pedidos...</td></tr>'
+            
+            const { data, error } = await supabase
+                .from('pedidos')
+                .select('*')
+                .order(ordenActual.columna, { ascending: ordenActual.direccion === 'asc' })
+            
+            if (error) {
+                console.error('Error:', error)
+                tbody.innerHTML = '<tr><td colspan="7" class="loading" style="color:red;">Error al cargar pedidos: ' + error.message + '</td></tr>'
+                return
+            }
+            
+            pedidos = data || []
+            mostrarPedidos(pedidos)
+            actualizarEstadisticas(pedidos)
+        }
+        
+        function mostrarPedidos(pedidosMostrar) {
+            const tbody = document.getElementById('pedidosBody')
+            
+            if (!pedidosMostrar || pedidosMostrar.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" class="loading">📭 No hay pedidos registrados</td></tr>'
+                return
+            }
+            
+            tbody.innerHTML = pedidosMostrar.map(pedido => `
+                <tr>
+                    <td style="font-weight: bold;">${pedido.numero_pedido}</td>
+                    <td>${new Date(pedido.fecha).toLocaleDateString()}</td>
+                    <td>${pedido.cliente_nombre}</td>
+                    <td>${pedido.cliente_telefono}</td>
+                    <td>$${pedido.total.toLocaleString()}</td>
+                    <td>
+                        <select class="estado-select estado-${pedido.estado}" onchange="cambiarEstado('${pedido.numero_pedido}', this.value)">
+                            <option value="pendiente" ${pedido.estado === 'pendiente' ? 'selected' : ''}>⏳ Pendiente</option>
+                            <option value="procesando" ${pedido.estado === 'procesando' ? 'selected' : ''}>⚙️ Procesando</option>
+                            <option value="enviado" ${pedido.estado === 'enviado' ? 'selected' : ''}>🚚 Enviado</option>
+                            <option value="entregado" ${pedido.estado === 'entregado' ? 'selected' : ''}>✅ Entregado</option>
+                            <option value="cancelado" ${pedido.estado === 'cancelado' ? 'selected' : ''}>❌ Cancelado</option>
+                        </select>
+                    </td>
+                    <td>
+                        <button class="btn-estado btn-ver" onclick="verDetalle('${pedido.numero_pedido}')">📋 Ver</button>
+                        <button class="btn-estado btn-wa" onclick="copiarWhatsApp('${pedido.numero_pedido}')">💬 WhatsApp</button>
+                    </td>
+                </tr>
+            `).join('')
+        }
+        
+        async function cambiarEstado(numeroPedido, nuevoEstado) {
+            const { error } = await supabase
+                .from('pedidos')
+                .update({ 
+                    estado: nuevoEstado, 
+                    fecha_actualizacion: new Date().toISOString() 
+                })
+                .eq('numero_pedido', numeroPedido)
+            
+            if (error) {
+                alert('❌ Error al actualizar estado: ' + error.message)
+            } else {
+                mostrarNotificacion('✅ Estado actualizado correctamente')
+                cargarPedidos()
+            }
+        }
+        
+        function verDetalle(numeroPedido) {
+            const pedido = pedidos.find(p => p.numero_pedido === numeroPedido)
+            if (!pedido) return
+            
+            const modal = document.getElementById('detalleModal')
+            const contenido = document.getElementById('detalleContenido')
+            
+            let productosHtml = '<h3>📦 Productos:</h3><ul style="margin: 10px 0 10px 20px;">'
+            if (pedido.productos && pedido.productos.length > 0) {
+                pedido.productos.forEach(p => {
+                    productosHtml += `<li>${p.nombre} x${p.cantidad} - $${p.subtotal.toLocaleString()}</li>`
+                })
+            } else {
+                productosHtml += '<li>No hay productos registrados</li>'
+            }
+            productosHtml += '</ul>'
+            
+            contenido.innerHTML = `
+                <p><strong>📋 Pedido:</strong> ${pedido.numero_pedido}</p>
+                <p><strong>📅 Fecha:</strong> ${new Date(pedido.fecha).toLocaleString()}</p>
+                <p><strong>👤 Cliente:</strong> ${pedido.cliente_nombre}</p>
+                <p><strong>📞 Teléfono:</strong> ${pedido.cliente_telefono}</p>
+                <p><strong>📍 Dirección:</strong> ${pedido.cliente_direccion}</p>
+                <p><strong>🏙️ Ciudad:</strong> ${pedido.cliente_ciudad}, ${pedido.cliente_estado} CP ${pedido.cliente_cp}</p>
+                ${productosHtml}
+                <p><strong>💰 Subtotal:</strong> $${pedido.subtotal.toLocaleString()}</p>
+                <p><strong>🚚 Envío:</strong> $${pedido.costo_envio.toLocaleString()}</p>
+                <p><strong>💵 Total:</strong> $${pedido.total.toLocaleString()}</p>
+                <p><strong>📌 Estado:</strong> <span class="estado-select estado-${pedido.estado}" style="display: inline-block;">${pedido.estado}</span></p>
+            `
+            modal.style.display = 'block'
+        }
+        
+        function copiarWhatsApp(numeroPedido) {
+            const pedido = pedidos.find(p => p.numero_pedido === numeroPedido)
+            if (!pedido) return
+            
+            let mensaje = `*PEDIDO ${pedido.numero_pedido} - PAPELERÍA EMY*%0A%0A`
+            mensaje += `👤 *Cliente:* ${pedido.cliente_nombre}%0A`
+            mensaje += `📞 *Teléfono:* ${pedido.cliente_telefono}%0A`
+            mensaje += `📍 *Dirección:* ${pedido.cliente_direccion}%0A%0A`
+            mensaje += `*Productos:*%0A`
+            
+            if (pedido.productos && pedido.productos.length > 0) {
+                pedido.productos.forEach(p => {
+                    mensaje += `• ${p.nombre} x${p.cantidad} - $${p.subtotal.toLocaleString()}%0A`
+                })
+            }
+            
+            mensaje += `%0A💰 *Total:* $${pedido.total.toLocaleString()}%0A`
+            mensaje += `📌 *Estado:* ${pedido.estado}`
+            
+            window.open(`https://wa.me/52${pedido.cliente_telefono}?text=${mensaje}`)
+            mostrarNotificacion('📱 Abriendo WhatsApp...')
+        }
+        
+        function actualizarEstadisticas(pedidosLista) {
+            const totalPedidos = pedidosLista.length
+            const totalVentas = pedidosLista.reduce((sum, p) => sum + (p.total || 0), 0)
+            const pedidosPendientes = pedidosLista.filter(p => p.estado === 'pendiente').length
+            const pedidosHoy = pedidosLista.filter(p => {
+                const hoy = new Date().toDateString()
+                return new Date(p.fecha).toDateString() === hoy
+            }).length
+            
+            document.getElementById('stats').innerHTML = `
+                <div class="stat-card">
+                    <h4>📊 Total Pedidos</h4>
+                    <h3>${totalPedidos}</h3>
+                </div>
+                <div class="stat-card">
+                    <h4>💰 Total Ventas</h4>
+                    <h3>$${totalVentas.toLocaleString()}</h3>
+                </div>
+                <div class="stat-card">
+                    <h4>⏳ Pendientes</h4>
+                    <h3>${pedidosPendientes}</h3>
+                </div>
+                <div class="stat-card">
+                    <h4>📅 Pedidos Hoy</h4>
+                    <h3>${pedidosHoy}</h3>
+                </div>
+            `
+        }
+        
+        function filtrarPedidos() {
+            const search = document.getElementById('searchInput').value.toLowerCase()
+            const estado = document.getElementById('estadoFilter').value
+            const fecha = document.getElementById('fechaFilter').value
+            
+            let filtrados = pedidos
+            
+            if (search) {
+                filtrados = filtrados.filter(p => 
+                    (p.cliente_nombre && p.cliente_nombre.toLowerCase().includes(search)) ||
+                    (p.cliente_telefono && p.cliente_telefono.includes(search)) ||
+                    (p.numero_pedido && p.numero_pedido.toLowerCase().includes(search))
+                )
+            }
+            
+            if (estado) {
+                filtrados = filtrados.filter(p => p.estado === estado)
+            }
+            
+            if (fecha) {
+                filtrados = filtrados.filter(p => {
+                    const fechaPedido = new Date(p.fecha).toISOString().split('T')[0]
+                    return fechaPedido === fecha
+                })
+            }
+            
+            mostrarPedidos(filtrados)
+        }
+        
+        function ordenarPor(columna) {
+            if (ordenActual.columna === columna) {
+                ordenActual.direccion = ordenActual.direccion === 'asc' ? 'desc' : 'asc'
+            } else {
+                ordenActual.columna = columna
+                ordenActual.direccion = 'asc'
+            }
+            cargarPedidos()
+        }
+        
+        function cerrarModal() {
+            document.getElementById('detalleModal').style.display = 'none'
+        }
+        
+        function mostrarNotificacion(mensaje) {
+            const notif = document.createElement('div')
+            notif.textContent = mensaje
+            notif.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                background: #28a745;
+                color: white;
+                padding: 12px 20px;
+                border-radius: 8px;
+                z-index: 2000;
+                animation: fadeOut 2s ease forwards;
+            `
+            const style = document.createElement('style')
+            style.textContent = `
+                @keyframes fadeOut {
+                    0% { opacity: 1; }
+                    70% { opacity: 1; }
+                    100% { opacity: 0; visibility: hidden; }
+                }
+            `
+            document.head.appendChild(style)
+            document.body.appendChild(notif)
+            setTimeout(() => notif.remove(), 2000)
+        }
+        
+        window.onclick = function(event) {
+            const modal = document.getElementById('detalleModal')
+            if (event.target === modal) {
+                modal.style.display = 'none'
+            }
+        }
+    </script>
+</body>
+</html>
