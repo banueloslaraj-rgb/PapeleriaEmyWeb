@@ -1,154 +1,226 @@
 [
     {
-        "nombre": "Copia B/N",
-        "descripcion": "Copia blanco y negro tamaño carta/oficio",
-        "precio": 1,
-        "tipo": "copias",
-        "imagen": "https://i.postimg.cc/placeholder/copia-bn.jpg",
-        "video": "#"
-    },
-    {
-        "nombre": "Copia Color",
-        "descripcion": "Copia a color tamaño carta/oficio",
-        "precio": 3,
-        "tipo": "copias",
-        "imagen": "https://i.postimg.cc/placeholder/copia-color.jpg",
-        "video": "#"
-    },
-    {
-        "nombre": "Impresión B/N",
-        "descripcion": "Impresión blanco y negro desde USB o archivo",
+        "nombre": "Impresión/Copia B/N Tamaño Carta",
+        "descripcion": "Blanco y Negro | Se Mejora el Precio en Volumen | Enviar Archivo por whatsapp",
         "precio": 2,
         "tipo": "impresion",
-        "imagen": "https://i.postimg.cc/placeholder/impresion-bn.jpg",
+        "imagen": "https://i.postimg.cc/wMScQbf4/Copia-BN.jpg",
         "video": "#"
     },
     {
-        "nombre": "Impresión Color",
-        "descripcion": "Impresión a color desde USB o archivo",
-        "precio": 5,
+        "nombre": "Impresión/Copia Color Tamaño Carta",
+        "descripcion": "Se mejora el precio dependiendo volumen y color | Enviar Archivo por whatsapp",
+        "precio": 10,
         "tipo": "impresion",
-        "imagen": "https://i.postimg.cc/placeholder/impresion-color.jpg",
+        "imagen": "https://i.postimg.cc/s2D6XqtN/copia-color.jpg",
+        "video": "#"
+    },
+    {
+        "nombre": "Impresión/Copia B/N Tamaño Oficio",
+        "descripcion": "Impresión Blanco y Negro | Se Mejora el Precio en Volumen | Enviar Archivo por whatsapp",
+        "precio": 4,
+        "tipo": "impresion",
+        "imagen": "https://i.postimg.cc/wMScQbf4/Copia-BN.jpg",
+        "video": "#"
+    },
+    {
+        "nombre": "Impresión/Copia Color Tamaño Oficio",
+        "descripcion": "Se mejora el precio dependiendo volumen y color | Enviar Archivo por whatsapp",
+        "precio": 15,
+        "tipo": "impresion",
+        "imagen": "https://i.postimg.cc/s2D6XqtN/copia-color.jpg",
         "video": "#"
     },
     {
         "nombre": "Acta de Nacimiento",
-        "descripcion": "Trámite de acta de nacimiento certificada",
-        "precio": 85,
+        "descripcion": "Trámite de acta de nacimiento certificada | Estado Nayarit",
+        "precio": 130,
         "tipo": "tramites",
-        "imagen": "https://i.postimg.cc/placeholder/acta-nacimiento.jpg",
+        "imagen": "https://i.postimg.cc/vB4YwPhr/Actas.jpg",
+        "video": "#"
+    },
+    {
+        "nombre": "Acta de Nacimiento",
+        "descripcion": "Trámite de acta de nacimiento certificada | Estado Jalisco",
+        "precio": 150,
+        "tipo": "tramites",
+        "imagen": "https://i.postimg.cc/vB4YwPhr/Actas.jpg",
+        "video": "#"
+    },
+    {
+        "nombre": "Acta de Nacimiento",
+        "descripcion": "Trámite de acta de nacimiento certificada | Resto de la Republica",
+        "precio": 180,
+        "tipo": "tramites",
+        "imagen": "https://i.postimg.cc/vB4YwPhr/Actas.jpg",
         "video": "#"
     },
     {
         "nombre": "CURP",
         "descripcion": "Trámite e impresión de CURP certificada",
+        "precio": 20,
+        "tipo": "tramites",
+        "imagen": "https://i.postimg.cc/1X1L7MjH/Curp.jpg",
+        "video": "#"
+    },
+    {
+        "nombre": "Constancia de Situación Fiscal RFC",
+        "descripcion": "Trámite de RFC | Contar con una constancia anterior | Entrega en 15 minutos",
+        "precio": 260,
+        "tipo": "tramites",
+        "imagen": "https://i.postimg.cc/Cxx92RmH/CSF.jpg",
+        "video": "#"
+    },
+    {
+        "nombre": "Constancia de Situación Fiscal RFC con Curp",
+        "descripcion": "Trámite de RFC | Contar con Curp | Entrega al dia siguiente",
+        "precio": 260,
+        "tipo": "tramites",
+        "imagen": "https://i.postimg.cc/Cxx92RmH/CSF.jpg",
+        "video": "#"
+    },
+    {
+        "nombre": "Cita INE / Credencial",
+        "descripcion": "Trámite de INE cita",
         "precio": 50,
         "tipo": "tramites",
-        "imagen": "https://i.postimg.cc/placeholder/curp.jpg",
+        "imagen": "https://i.postimg.cc/1XPMkdcD/agenda-cita.jpg",
         "video": "#"
     },
     {
-        "nombre": "RFC",
-        "descripcion": "Trámite de RFC y cédula fiscal",
-        "precio": 150,
-        "tipo": "tramites",
-        "imagen": "https://i.postimg.cc/placeholder/rfc.jpg",
-        "video": "#"
-    },
-    {
-        "nombre": "INE / Credencial",
-        "descripcion": "Trámite de INE (cita y acompañamiento)",
+        "nombre": "Cita Pasaporte",
+        "descripcion": "Trámite de pasaporte mexicano | Requisitos se solicitan por whatsapp al ordenar",
         "precio": 200,
         "tipo": "tramites",
-        "imagen": "https://i.postimg.cc/placeholder/ine.jpg",
-        "video": "#"
-    },
-    {
-        "nombre": "Pasaporte",
-        "descripcion": "Trámite de pasaporte mexicano (cita y documentos)",
-        "precio": 350,
-        "tipo": "tramites",
-        "imagen": "https://i.postimg.cc/placeholder/pasaporte.jpg",
-        "video": "#"
-    },
-    {
-        "nombre": "Certificado de Estudios",
-        "descripcion": "Trámite de certificado de primaria/secundaria/prepa",
-        "precio": 180,
-        "tipo": "tramites",
-        "imagen": "https://i.postimg.cc/placeholder/certificado.jpg",
+        "imagen": "https://i.postimg.cc/3RjFFB5D/Cita-Pasaporte.jpg",
         "video": "#"
     },
     {
         "nombre": "Engargolado",
-        "descripcion": "Engargolado de documentos, tamaño carta/oficio",
-        "precio": 25,
-        "tipo": "servicios",
-        "imagen": "https://i.postimg.cc/placeholder/engargolado.jpg",
-        "video": "#"
-    },
-    {
-        "nombre": "Empastado",
-        "descripcion": "Empastado de tesis, trabajos y documentos",
+        "descripcion": "Engargolado de documentos | Tamaño carta/oficio | Se mejora el precio por cantidad de hojas",
         "precio": 80,
         "tipo": "servicios",
-        "imagen": "https://i.postimg.cc/placeholder/empastado.jpg",
+        "imagen": "https://i.postimg.cc/vH7w6RN1/Engargolado.jpg",
         "video": "#"
     },
     {
-        "nombre": "Laminado",
-        "descripcion": "Laminado de documentos tamaño carta/oficio",
-        "precio": 15,
-        "tipo": "servicios",
-        "imagen": "https://i.postimg.cc/placeholder/laminado.jpg",
-        "video": "#"
-    },
-    {
-        "nombre": "Hojas Blancas",
-        "descripcion": "Paquete de 100 hojas blancas tamaño carta",
-        "precio": 45,
-        "tipo": "papeleria",
-        "imagen": "https://i.postimg.cc/placeholder/hojas.jpg",
-        "video": "#"
-    },
-    {
-        "nombre": "Cuaderno Profesional",
-        "descripcion": "Cuaderno profesional tamaño carta, 100 hojas",
-        "precio": 65,
-        "tipo": "papeleria",
-        "imagen": "https://i.postimg.cc/placeholder/cuaderno.jpg",
-        "video": "#"
-    },
-    {
-        "nombre": "Lapiceros",
-        "descripcion": "Paquete de 10 lapiceros de tinta negra/azul",
+        "nombre": "Enmicado Tamaño Carta",
+        "descripcion": "Enmicado de documentos tamaño carta",
         "precio": 35,
-        "tipo": "utiles",
-        "imagen": "https://i.postimg.cc/placeholder/lapiceros.jpg",
+        "tipo": "servicios",
+        "imagen": "https://i.postimg.cc/YqHJ7nCt/enmicado.jpg",
         "video": "#"
     },
     {
-        "nombre": "Lápices",
-        "descripcion": "Paquete de 10 lápices número 2",
+        "nombre": "Enmicado Tamaño Oficio",
+        "descripcion": "Enmicado de documentos tamaño oficio",
+        "precio": 50,
+        "tipo": "servicios",
+        "imagen": "https://i.postimg.cc/YqHJ7nCt/enmicado.jpg",
+        "video": "#"
+    },
+    {
+        "nombre": "Hojas Blancas 100 hojas",
+        "descripcion": "Paquete de 100 hojas blancas tamaño carta",
+        "precio": 38,
+        "tipo": "papeleria",
+        "imagen": "https://i.postimg.cc/6pDVsSBd/Hojas-blancas.jpg",
+        "video": "#"
+    },
+    {
+        "nombre": "Hojas Blancas 50 hojas",
+        "descripcion": "Paquete de 50 hojas blancas tamaño carta",
+        "precio": 25,
+        "tipo": "papeleria",
+        "imagen": "https://i.postimg.cc/6pDVsSBd/Hojas-blancas.jpg",
+        "video": "#"
+    },
+    {
+        "nombre": "Cuaderno Profesional Scribe",
+        "descripcion": "Cuaderno profesional tamaño carta, 100 hojas",
+        "precio": 35,
+        "tipo": "papeleria",
+        "imagen": "https://i.postimg.cc/fR0XvKYT/descarga.jpg",
+        "video": "#"
+    },
+    {
+        "nombre": "Cuaderno Profesional Swing",
+        "descripcion": "Cuaderno profesional tamaño carta, 100 hojas",
         "precio": 30,
+        "tipo": "papeleria",
+        "imagen": "https://i.postimg.cc/bNZ2zTCv/cuaderno-swing.png",
+        "video": "#"
+    },
+    {
+        "nombre": "Pluma Negra",
+        "descripcion": "Lapicera",
+        "precio": 10,
         "tipo": "utiles",
-        "imagen": "https://i.postimg.cc/placeholder/lapices.jpg",
+        "imagen": "https://i.postimg.cc/Z5TnWxjP/Pluma-Negra.jpg",
+        "video": "#"
+    },
+    {
+        "nombre": "Pluma Roja",
+        "descripcion": "Lapicera",
+        "precio": 10,
+        "tipo": "utiles",
+        "imagen": "https://i.postimg.cc/Y0629vFB/Pluma-Roja.jpg",
+        "video": "#"
+    },
+    {
+        "nombre": "Pluma Verde",
+        "descripcion": "Lapicera",
+        "precio": 10,
+        "tipo": "utiles",
+        "imagen": "https://i.postimg.cc/6QFBfrVj/Pluma-Verde.jpg",
+        "video": "#"
+    },
+    {
+        "nombre": "Pluma Azul",
+        "descripcion": "Lapicera",
+        "precio": 10,
+        "tipo": "utiles",
+        "imagen": "https://i.postimg.cc/yYnBb4Xp/Pluma-azul.png",
+        "video": "#"
+    },
+    {
+        "nombre": "Lápiz No. 2",
+        "descripcion": "Numero 2",
+        "precio": 10,
+        "tipo": "utiles",
+        "imagen": "https://i.postimg.cc/DfM8YGvk/lapiz-no-2.png",
         "video": "#"
     },
     {
         "nombre": "Sacapuntas",
-        "descripcion": "Sacapuntas metálico con depósito",
-        "precio": 12,
+        "descripcion": "Sacapuntas de plastico",
+        "precio": 7,
         "tipo": "utiles",
-        "imagen": "https://i.postimg.cc/placeholder/sacapuntas.jpg",
+        "imagen": "https://i.postimg.cc/XNk0rShM/sacapuntas.jpg",
         "video": "#"
     },
     {
-        "nombre": "Gomas de Borrar",
-        "descripcion": "Paquete de 5 gomas de borrar blancas",
-        "precio": 15,
+        "nombre": "Sacapuntas Metalico",
+        "descripcion": "Sacapuntas Metalico",
+        "precio": 10,
         "tipo": "utiles",
-        "imagen": "https://i.postimg.cc/placeholder/gomas.jpg",
+        "imagen": "https://i.postimg.cc/br3M38cn/sacapuntas-metalico.jpg",
+        "video": "#"
+    },
+    {
+        "nombre": "Borrador Chico",
+        "descripcion": "Borrador Blanco o Migajon",
+        "precio": 6,
+        "tipo": "utiles",
+        "imagen": "https://i.postimg.cc/xjt4r0hf/Borrador.jpg",
+        "video": "#"
+    },
+    {
+        "nombre": "Borrador Grande",
+        "descripcion": "Borrador Blanco o Migajon",
+        "precio": 12,
+        "tipo": "utiles",
+        "imagen": "https://i.postimg.cc/xjt4r0hf/Borrador.jpg",
         "video": "#"
     },
     {
@@ -209,24 +281,24 @@
     },
     {
         "nombre": "Cartulina",
-        "descripcion": "Cartulina blanca tamaño carta (10 piezas)",
-        "precio": 40,
+        "descripcion": "Cartulina Blanca/color",
+        "precio": 10,
         "tipo": "papeleria",
-        "imagen": "https://i.postimg.cc/placeholder/cartulina.jpg",
+        "imagen": "https://i.postimg.cc/6q2R1LFc/cartulina-blancacolor.jpg",
         "video": "#"
     },
     {
         "nombre": "Folder Manila",
-        "descripcion": "Folder manila tamaño carta (10 piezas)",
-        "precio": 35,
+        "descripcion": "Folder manila tamaño carta",
+        "precio": 18,
         "tipo": "papeleria",
         "imagen": "https://i.postimg.cc/placeholder/folder.jpg",
         "video": "#"
     },
     {
         "nombre": "Sobre Manila",
-        "descripcion": "Sobre manila tamaño carta (10 piezas)",
-        "precio": 30,
+        "descripcion": "Sobre manila tamaño carta",
+        "precio": 18,
         "tipo": "papeleria",
         "imagen": "https://i.postimg.cc/placeholder/sobre.jpg",
         "video": "#"
