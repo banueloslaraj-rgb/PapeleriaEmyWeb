@@ -10,7 +10,7 @@ let costoEnvio = 50
 let productosGlobales = []
 
 // ⚡ VERSIÓN ACTUAL
-const VERSION = '2.4.0'
+const VERSION = '2.5.0'
 
 // 🎯 ÍCONOS POR CATEGORÍA
 const iconosCategoria = {
@@ -255,6 +255,33 @@ function mostrarFormularioEnvio() {
     modalEnvio.style.display = 'block'
 }
 
+// ========== FUNCIÓN PARA ABRIR WHATSAPP (MÓVIL Y PC) ==========
+function abrirWhatsApp(numero, mensaje) {
+    // Detectar tipo de dispositivo
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent)
+    
+    // Limpiar número (solo dígitos)
+    const numeroLimpio = numero.replace(/\D/g, '')
+    
+    if (isMobile) {
+        // En móvil: usar el esquema whatsapp:// (abre la app)
+        const whatsappUrl = `whatsapp://send?phone=${numeroLimpio}&text=${mensaje}`
+        window.location.href = whatsappUrl
+        
+        // Fallback: si no abre después de 2 segundos, mostrar mensaje
+        setTimeout(() => {
+            if (!document.hidden) {
+                alert('⚠️ No se pudo abrir WhatsApp. Asegúrate de tener la app instalada.')
+            }
+        }, 2000)
+    } else {
+        // En PC: usar WhatsApp Web
+        const whatsappUrl = `https://wa.me/${numeroLimpio}?text=${mensaje}`
+        window.open(whatsappUrl, '_blank')
+    }
+}
+
 // ========== FUNCIÓN PRINCIPAL: ENVIAR PEDIDO A WHATSAPP Y GUARDAR EN SUPABASE ==========
 async function enviarPedidoWhatsApp() {
     const nombre = document.getElementById('nombre')?.value
@@ -325,8 +352,7 @@ async function enviarPedidoWhatsApp() {
         mostrarNotificacion('⚠️ Error de conexión, guardado localmente')
     }
     
-    // ========== ENVIAR MENSAJE A WHATSAPP (NÚMERO DEL NEGOCIO) ==========
-    // Número de WhatsApp de la papelería: 3111198148
+    // ========== PREPARAR MENSAJE DE WHATSAPP ==========
     const numeroWhatsappNegocio = '523111198148'  // Código país 52 + número
     
     let mensaje = "🛒 *NUEVO PEDIDO - PAPELERÍA EMY*%0A"
@@ -351,14 +377,15 @@ async function enviarPedidoWhatsApp() {
     mensaje += "¡Gracias por tu compra! 🙌%0A"
     mensaje += "📍 Papelería Emy - ¡Siempre contigo! 📚"
     
-    // Abrir WhatsApp con el número del negocio
-    window.open(`https://wa.me/${numeroWhatsappNegocio}?text=${mensaje}`)
+    // ========== ABRIR WHATSAPP (FUNCIONA EN MÓVIL Y PC) ==========
+    abrirWhatsApp(numeroWhatsappNegocio, mensaje)
     
-    // Limpiar carrito y cerrar modal
-    cerrarModalEnvio()
-    carrito = []
-    actualizarContadorCarrito()
-    mostrarNotificacion('✅ Pedido enviado a WhatsApp y guardado')
+    // Limpiar carrito y cerrar modal después de un pequeño retraso
+    setTimeout(() => {
+        cerrarModalEnvio()
+        carrito = []
+        actualizarContadorCarrito()
+    }, 1500)
 }
 
 // Guardar pedidos localmente como respaldo
@@ -463,5 +490,6 @@ window.onclick = function(event) {
 
 document.addEventListener('DOMContentLoaded', function() {
     console.log('🚀 Papelería Emy - Página cargada - Versión:', VERSION);
+    console.log('📱 Dispositivo:', /Mobile|Android|iPhone|iPad/i.test(navigator.userAgent) ? 'Móvil' : 'PC');
     cargarProductos();
 });
