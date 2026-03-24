@@ -1,11 +1,8 @@
 // ========== CONFIGURACIÓN DE SUPABASE ==========
-// ⚠️ REEMPLAZA ESTOS DATOS CON LOS TUYOS DE SUPABASE ⚠️
 const SUPABASE_URL = 'https://tngzvcyjonrqbdbxehar.supabase.co'
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRuZ3p2Y3lqb25ycWJkYnhlaGFyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQzNjkxMTMsImV4cCI6MjA4OTk0NTExM30.1I9Y1GycjP9WaFm3WYj5j5xw8YtGnlyWpC87J2vb9e8'
 
-// Inicializar Supabase
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
-console.log('🚀 Supabase inicializado')
 
 // ========== VARIABLES GLOBALES ==========
 let carrito = []
@@ -13,7 +10,7 @@ let costoEnvio = 50
 let productosGlobales = []
 
 // ⚡ VERSIÓN ACTUAL
-const VERSION = '2.3.1'
+const VERSION = '2.4.0'
 
 // 🎯 ÍCONOS POR CATEGORÍA
 const iconosCategoria = {
@@ -258,7 +255,7 @@ function mostrarFormularioEnvio() {
     modalEnvio.style.display = 'block'
 }
 
-// ========== FUNCIÓN PRINCIPAL: ENVIAR PEDIDO Y GUARDAR ==========
+// ========== FUNCIÓN PRINCIPAL: ENVIAR PEDIDO A WHATSAPP Y GUARDAR EN SUPABASE ==========
 async function enviarPedidoWhatsApp() {
     const nombre = document.getElementById('nombre')?.value
     const telefono = document.getElementById('telefono')?.value
@@ -307,7 +304,7 @@ async function enviarPedidoWhatsApp() {
     // Mostrar notificación de guardado
     mostrarNotificacion('💾 Guardando pedido...')
     
-    // Guardar en Supabase
+    // ========== GUARDAR EN SUPABASE ==========
     try {
         const { data, error } = await supabaseClient
             .from('pedidos')
@@ -316,7 +313,7 @@ async function enviarPedidoWhatsApp() {
         
         if (error) {
             console.error('Error al guardar en Supabase:', error)
-            mostrarNotificacion('⚠️ Pedido guardado localmente (error en nube)')
+            mostrarNotificacion('⚠️ Error al guardar, pero se enviará por WhatsApp')
             guardarPedidoLocal(pedidoData)
         } else {
             console.log('✅ Pedido guardado en Supabase:', data)
@@ -325,10 +322,13 @@ async function enviarPedidoWhatsApp() {
     } catch (error) {
         console.error('Error:', error)
         guardarPedidoLocal(pedidoData)
-        mostrarNotificacion('⚠️ Pedido guardado localmente')
+        mostrarNotificacion('⚠️ Error de conexión, guardado localmente')
     }
     
-    // Preparar mensaje de WhatsApp
+    // ========== ENVIAR MENSAJE A WHATSAPP (NÚMERO DEL NEGOCIO) ==========
+    // Número de WhatsApp de la papelería: 3111198148
+    const numeroWhatsappNegocio = '523111198148'  // Código país 52 + número
+    
     let mensaje = "🛒 *NUEVO PEDIDO - PAPELERÍA EMY*%0A"
     mensaje += `📋 *NÚMERO DE PEDIDO:* ${numeroPedido}%0A%0A`
     mensaje += "*PRODUCTOS/SERVICIOS:*%0A"
@@ -351,13 +351,14 @@ async function enviarPedidoWhatsApp() {
     mensaje += "¡Gracias por tu compra! 🙌%0A"
     mensaje += "📍 Papelería Emy - ¡Siempre contigo! 📚"
     
-    // Abrir WhatsApp
-    window.open(`https://wa.me/523111198148?text=${mensaje}`)
+    // Abrir WhatsApp con el número del negocio
+    window.open(`https://wa.me/${numeroWhatsappNegocio}?text=${mensaje}`)
     
     // Limpiar carrito y cerrar modal
     cerrarModalEnvio()
     carrito = []
     actualizarContadorCarrito()
+    mostrarNotificacion('✅ Pedido enviado a WhatsApp y guardado')
 }
 
 // Guardar pedidos localmente como respaldo
