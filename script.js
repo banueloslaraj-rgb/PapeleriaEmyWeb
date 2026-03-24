@@ -1,7 +1,7 @@
 // ========== CONFIGURACIÓN DE SUPABASE ==========
 // ⚠️ REEMPLAZA ESTOS DATOS CON LOS TUYOS DE SUPABASE ⚠️
-const SUPABASE_URL = 'https://tngzvcyjonrqbdbxehar.supabase.co'      // Tu URL de Supabase
-const SUPABASE_ANON_KEY = 'tngzvcyjonrqbdbxehar'                // Tu clave pública anon
+const SUPABASE_URL = 'https://tngzvcyjonrqbdbxehar.supabase.co'
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRuZ3p2Y3lqb25ycWJkYnhlaGFyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQzNjkxMTMsImV4cCI6MjA4OTk0NTExM30.1I9Y1GycjP9WaFm3WYj5j5xw8YtGnlyWpC87J2vb9e8'
 
 // Inicializar Supabase
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
