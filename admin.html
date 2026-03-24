@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>Panel Admin - Papelería Emy</title>
     <style>
         * {
@@ -12,14 +12,23 @@
         }
         
         body {
-            font-family: 'Segoe UI', Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
         }
         
+        /* Pantalla de Login */
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
         .login-box {
             max-width: 400px;
-            margin: 100px auto;
+            margin: 0 auto;
             background: white;
             padding: 40px;
             border-radius: 20px;
@@ -285,23 +294,49 @@
             color: #999;
         }
         
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #28a745;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 10px;
+            z-index: 3000;
+            animation: fadeOut 3s ease forwards;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        
+        .toast-error {
+            background: #dc3545;
+        }
+        
+        @keyframes fadeOut {
+            0% { opacity: 1; visibility: visible; }
+            70% { opacity: 1; }
+            100% { opacity: 0; visibility: hidden; }
+        }
+        
         @media (max-width: 768px) {
             .admin-header h1 { font-size: 18px; }
             th, td { font-size: 12px; padding: 8px; }
             .stats { grid-template-columns: 1fr 1fr; }
+            .toast { bottom: 20px; right: 20px; padding: 8px 16px; font-size: 12px; }
         }
     </style>
 </head>
 <body>
 
 <!-- Login -->
-<div id="loginPanel" class="login-box">
-    <h2>🔐 Panel Administrador</h2>
-    <p>Ingresa la contraseña para acceder</p>
-    <input type="password" id="passwordInput" placeholder="Contraseña" onkeypress="if(event.key==='Enter') verificarPassword()">
-    <button onclick="verificarPassword()">Acceder al panel</button>
-    <div id="mensajeLogin"></div>
-    <a href="index.html" class="volver-link">← Volver a la tienda</a>
+<div id="loginPanel" class="login-container">
+    <div class="login-box">
+        <h2>🔐 Panel Administrador</h2>
+        <p>Ingresa la contraseña para acceder</p>
+        <input type="password" id="passwordInput" placeholder="Contraseña" onkeypress="if(event.key==='Enter') verificarPassword()">
+        <button onclick="verificarPassword()">Acceder al panel</button>
+        <div id="mensajeLogin"></div>
+        <a href="index.html" class="volver-link">← Volver a la tienda</a>
+    </div>
 </div>
 
 <!-- Dashboard Admin -->
@@ -375,7 +410,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-    // ========== CONFIGURACIÓN DE SUPABASE (ACTUALIZADA) ==========
+    // ========== CONFIGURACIÓN DE SUPABASE ==========
     const SUPABASE_URL = 'https://tngzvcyjonrqbdbxehar.supabase.co'
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRuZ3p2Y3lqb25ycWJkYnhlaGFyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQzNjkxMTMsImV4cCI6MjA4OTk0NTExM30.1I9Y1GycjP9WaFm3WYj5j5xw8YtGnlyWpC87J2vb9e8'
     
@@ -404,7 +439,7 @@
     }
     
     function cerrarSesion() {
-        document.getElementById('loginPanel').style.display = 'block'
+        document.getElementById('loginPanel').style.display = 'flex'
         document.getElementById('adminPanel').style.display = 'none'
         document.getElementById('passwordInput').value = ''
         document.getElementById('mensajeLogin').innerHTML = ''
@@ -465,16 +500,120 @@
         `).join('')
     }
     
+    // ========== CAMBIAR ESTADO CON MENSAJES AMIGABLES ==========
     async function cambiarEstado(numeroPedido, nuevoEstado) {
+        // Primero obtenemos el pedido para tener los datos del cliente
+        const pedido = pedidos.find(p => p.numero_pedido === numeroPedido)
+        if (!pedido) {
+            mostrarToast('❌ No se encontró el pedido', 'error')
+            return
+        }
+        
+        // ========== MENSAJES AMIGABLES SEGÚN EL ESTADO ==========
+        let mensajeWhatsApp = ''
+        let tituloConfirmacion = ''
+        
+        switch(nuevoEstado) {
+            case 'procesando':
+                tituloConfirmacion = '⚙️ PEDIDO EN PROCESO'
+                mensajeWhatsApp = `Hola ${pedido.cliente_nombre}, %0A%0A`
+                mensajeWhatsApp += `✅ Tu pedido *${pedido.numero_pedido}* está siendo preparado. %0A`
+                mensajeWhatsApp += `En breve te avisamos cuando esté listo para envío o recogida. %0A%0A`
+                mensajeWhatsApp += `¡Gracias por tu paciencia! 🙌%0A`
+                mensajeWhatsApp += `📍 Papelería Emy`
+                break
+                
+            case 'enviado':
+                tituloConfirmacion = '🚚 PEDIDO ENVIADO'
+                mensajeWhatsApp = `Hola ${pedido.cliente_nombre}, %0A%0A`
+                mensajeWhatsApp += `🎉 ¡Tu pedido *${pedido.numero_pedido}* ya está en camino! 🚚%0A`
+                mensajeWhatsApp += `Pronto recibirás tu pedido. %0A%0A`
+                mensajeWhatsApp += `Gracias por confiar en Papelería Emy 💛%0A`
+                mensajeWhatsApp += `📍 ¡Siempre contigo!`
+                break
+                
+            case 'entregado':
+                tituloConfirmacion = '✅ PEDIDO ENTREGADO'
+                mensajeWhatsApp = `Hola ${pedido.cliente_nombre}, %0A%0A`
+                mensajeWhatsApp += `🎉 ¡Tu pedido *${pedido.numero_pedido}* ha sido entregado con éxito! %0A%0A`
+                mensajeWhatsApp += `Gracias por tu compra. ¡Te esperamos pronto! 💛%0A`
+                mensajeWhatsApp += `📍 Papelería Emy`
+                break
+                
+            case 'cancelado':
+                tituloConfirmacion = '❌ PEDIDO CANCELADO'
+                mensajeWhatsApp = `Hola ${pedido.cliente_nombre}, %0A%0A`
+                mensajeWhatsApp += `Lamentamos informarte que tu pedido *${pedido.numero_pedido}* ha sido cancelado. %0A%0A`
+                mensajeWhatsApp += `Si tienes dudas, contáctanos al 3111198148. %0A%0A`
+                mensajeWhatsApp += `📍 Papelería Emy`
+                break
+                
+            case 'pendiente':
+                tituloConfirmacion = '📋 PEDIDO RECIBIDO'
+                mensajeWhatsApp = `Hola ${pedido.cliente_nombre}, %0A%0A`
+                mensajeWhatsApp += `✅ Hemos recibido tu pedido *${pedido.numero_pedido}* correctamente. %0A`
+                mensajeWhatsApp += `En breve comenzaremos con su preparación. %0A%0A`
+                mensajeWhatsApp += `¡Gracias por preferirnos! 🙌%0A`
+                mensajeWhatsApp += `📍 Papelería Emy`
+                break
+                
+            default:
+                tituloConfirmacion = '📌 ESTADO ACTUALIZADO'
+                mensajeWhatsApp = `Hola ${pedido.cliente_nombre}, %0A%0A`
+                mensajeWhatsApp += `Tu pedido *${pedido.numero_pedido}* ahora está en estado: *${nuevoEstado}* %0A%0A`
+                mensajeWhatsApp += `Para más información, contáctanos al 3111198148. %0A%0A`
+                mensajeWhatsApp += `📍 Papelería Emy`
+                break
+        }
+        
+        // Mostrar confirmación antes de enviar
+        const confirmar = confirm(`📱 ¿Enviar WhatsApp al cliente?\n\n${tituloConfirmacion}\n\nCliente: ${pedido.cliente_nombre}\nTeléfono: ${pedido.cliente_telefono}\n\nMensaje:\n${mensajeWhatsApp.replace(/%0A/g, '\n')}`)
+        
+        if (!confirmar) {
+            // Si no quiere enviar WhatsApp, solo actualiza el estado
+            const { error } = await supabaseClient
+                .from('pedidos')
+                .update({ estado: nuevoEstado, fecha_actualizacion: new Date().toISOString() })
+                .eq('numero_pedido', numeroPedido)
+            
+            if (error) {
+                mostrarToast('❌ Error: ' + error.message, 'error')
+            } else {
+                mostrarToast('✅ Estado actualizado (sin WhatsApp)', 'success')
+                cargarPedidos()
+            }
+            return
+        }
+        
+        // ========== ENVIAR WHATSAPP CON MENSAJE AMIGABLE ==========
+        const numeroCliente = pedido.cliente_telefono.replace(/\D/g, '')
+        const numeroWhatsapp = `52${numeroCliente}` // Código país México
+        
+        // Detectar si es móvil o PC
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
+        
+        if (isMobile) {
+            window.location.href = `whatsapp://send?phone=${numeroWhatsapp}&text=${mensajeWhatsApp}`
+            setTimeout(() => {
+                if (!document.hidden) {
+                    mostrarToast('⚠️ Si no abre, verifica que tengas WhatsApp instalado', 'error')
+                }
+            }, 2000)
+        } else {
+            window.open(`https://wa.me/${numeroWhatsapp}?text=${mensajeWhatsApp}`, '_blank')
+            mostrarToast('📱 Abriendo WhatsApp Web...', 'success')
+        }
+        
+        // ========== ACTUALIZAR ESTADO EN SUPABASE ==========
         const { error } = await supabaseClient
             .from('pedidos')
             .update({ estado: nuevoEstado, fecha_actualizacion: new Date().toISOString() })
             .eq('numero_pedido', numeroPedido)
         
         if (error) {
-            alert('❌ Error: ' + error.message)
+            mostrarToast('❌ Error al actualizar estado: ' + error.message, 'error')
         } else {
-            alert('✅ Estado actualizado a: ' + nuevoEstado)
+            mostrarToast(`✅ Estado actualizado a: ${nuevoEstado}`, 'success')
             cargarPedidos()
         }
     }
@@ -534,7 +673,15 @@
         mensaje += `%0A💰 *Total:* $${(pedido.total || 0).toLocaleString()}%0A`
         mensaje += `📌 *Estado:* ${pedido.estado}`
         
-        window.open(`https://wa.me/52${pedido.cliente_telefono}?text=${mensaje}`)
+        const numeroCliente = pedido.cliente_telefono.replace(/\D/g, '')
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
+        
+        if (isMobile) {
+            window.location.href = `whatsapp://send?phone=52${numeroCliente}&text=${mensaje}`
+        } else {
+            window.open(`https://wa.me/52${numeroCliente}?text=${mensaje}`, '_blank')
+        }
+        mostrarToast('📱 Abriendo WhatsApp...', 'success')
     }
     
     function actualizarEstadisticas(pedidosLista) {
@@ -595,6 +742,15 @@
         document.getElementById('detalleModal').style.display = 'none'
     }
     
+    function mostrarToast(mensaje, tipo = 'success') {
+        const toast = document.createElement('div')
+        toast.className = 'toast'
+        if (tipo === 'error') toast.classList.add('toast-error')
+        toast.textContent = mensaje
+        document.body.appendChild(toast)
+        setTimeout(() => toast.remove(), 3000)
+    }
+    
     window.onclick = function(event) {
         const modal = document.getElementById('detalleModal')
         if (event.target === modal) {
@@ -602,9 +758,8 @@
         }
     }
     
-    // Verificar sesión al cargar
     window.onload = function() {
-        console.log('Admin panel cargado - Versión actualizada')
+        console.log('Admin panel cargado - Versión con mensajes amigables')
     }
 </script>
 </body>
