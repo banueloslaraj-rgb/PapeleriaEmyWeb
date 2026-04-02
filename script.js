@@ -471,6 +471,28 @@ function buscar() {
     mostrar(filtrados)
 }
 
+// ========== DETECTAR CAMBIOS DESDE EL ADMIN ==========
+window.addEventListener('storage', function(e) {
+    if (e.key === 'productos_actualizados' && e.newValue) {
+        console.log('🔄 Detectada actualización de productos, recargando...');
+        try {
+            const data = JSON.parse(e.newValue);
+            if (data.productos && data.productos.length > 0) {
+                productosGlobales = data.productos.map(p => ({ ...p, precio: Number(p.precio) }));
+                mostrar(productosGlobales);
+                mostrarNotificacion('✨ Productos actualizados automáticamente');
+            } else {
+                // Si no hay datos en localStorage, recargar desde Supabase
+                cargarProductos();
+                mostrarNotificacion('🔄 Recargando productos...');
+            }
+        } catch (err) {
+            console.error('Error al procesar actualización:', err);
+            cargarProductos();
+        }
+    }
+});
+
 window.onclick = function(event) {
     const modalCarrito = document.getElementById('modalCarrito')
     const modalEnvio = document.getElementById('modalEnvio')

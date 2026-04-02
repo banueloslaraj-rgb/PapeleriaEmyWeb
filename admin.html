@@ -886,9 +886,32 @@
         } else {
             mostrarToast(`✅ "${producto.nombre}" eliminado`, 'success');
             cargarProductosAdmin();
+            await recargarTienda();
         }
     }
     
+    // ========== FUNCIÓN PARA ACTUALIZAR LA TIENDA ==========
+    async function recargarTienda() {
+        try {
+            const { data, error } = await supabaseClient
+                .from('productos')
+                .select('*')
+                .order('id', { ascending: true });
+            
+            if (!error && data) {
+                localStorage.setItem('productos_actualizados', JSON.stringify({
+                    timestamp: Date.now(),
+                    productos: data
+                }));
+                console.log('✅ Tienda actualizada automáticamente');
+                mostrarToast('✨ Productos actualizados en la tienda', 'success');
+            }
+        } catch(e) { 
+            console.error('Error al actualizar tienda:', e);
+        }
+    }
+    
+    // Event listener del formulario de productos
     document.getElementById('productoForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         
@@ -911,13 +934,19 @@
                 .update(productoData)
                 .eq('id', parseInt(id));
             error = updateError;
-            if (!error) mostrarToast('✅ Producto actualizado', 'success');
+            if (!error) {
+                mostrarToast('✅ Producto actualizado', 'success');
+                await recargarTienda();
+            }
         } else {
             const { error: insertError } = await supabaseClient
                 .from('productos')
                 .insert([{ ...productoData, created_at: new Date().toISOString() }]);
             error = insertError;
-            if (!error) mostrarToast('✅ Producto agregado', 'success');
+            if (!error) {
+                mostrarToast('✅ Producto agregado', 'success');
+                await recargarTienda();
+            }
         }
         
         if (error) {
@@ -949,7 +978,7 @@
     }
     
     window.onload = function() {
-        console.log('Admin panel cargado - Versión con gestión de productos');
+        console.log('Admin panel cargado - Versión con gestión de productos y actualización automática');
     }
 </script>
 </body>
