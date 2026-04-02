@@ -10,7 +10,7 @@ let costoEnvio = 50
 let productosGlobales = []
 
 // ⚡ VERSIÓN ACTUAL
-const VERSION = '2.5.0'
+const VERSION = '3.0.0'
 
 // 🎯 ÍCONOS POR CATEGORÍA
 const iconosCategoria = {
@@ -28,32 +28,41 @@ function getIcono(tipo) {
     return iconosCategoria[tipo] || iconosCategoria.default;
 }
 
-// ========== CARGAR PRODUCTOS ==========
+// ========== CARGAR PRODUCTOS DESDE SUPABASE ==========
 async function cargarProductos(){
     try {
-        console.log('🔄 Cargando productos - Papelería Emy Versión:', VERSION);
+        console.log('🔄 Cargando productos desde Supabase - Versión:', VERSION);
         
-        const timestamp = new Date().getTime();
-        const res = await fetch(`productos.json?v=${VERSION}&t=${timestamp}`);
+        const { data, error } = await supabaseClient
+            .from('productos')
+            .select('*')
+            .order('id', { ascending: true });
         
-        if (!res.ok) {
-            throw new Error(`Error HTTP: ${res.status}`);
+        if (error) throw error;
+        
+        if (data && data.length > 0) {
+            productosGlobales = data.map(p => ({
+                ...p,
+                precio: Number(p.precio)
+            }));
+            console.log(`✅ Productos cargados desde Supabase: ${productosGlobales.length}`);
+        } else {
+            // Fallback a JSON local si Supabase está vacío
+            console.log('⚠️ Supabase vacío, cargando desde JSON...');
+            const res = await fetch(`productos.json?v=${Date.now()}`);
+            const productosJson = await res.json();
+            productosGlobales = productosJson.map(p => ({ ...p, precio: Number(p.precio) }));
         }
-        
-        const productos = await res.json();
-        
-        productosGlobales = productos.map(p => ({
-            ...p,
-            precio: Number(p.precio)
-        }));
         
         mostrar(productosGlobales);
         
-        console.log(`✅ Productos cargados: ${productosGlobales.length} productos`);
-        
     } catch (error) {
         console.error('❌ Error cargando productos:', error);
-        document.getElementById('productos').innerHTML = '<p style="text-align:center;color:red;">Error al cargar productos. Recarga la página.</p>';
+        // Fallback a JSON local
+        const res = await fetch(`productos.json?v=${Date.now()}`);
+        const productosJson = await res.json();
+        productosGlobales = productosJson.map(p => ({ ...p, precio: Number(p.precio) }));
+        mostrar(productosGlobales);
     }
 }
 
@@ -255,34 +264,24 @@ function mostrarFormularioEnvio() {
     modalEnvio.style.display = 'block'
 }
 
-// ========== FUNCIÓN PARA ABRIR WHATSAPP (MÓVIL Y PC) ==========
 function abrirWhatsApp(numero, mensaje) {
-    // Detectar tipo de dispositivo
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
-    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent)
-    
-    // Limpiar número (solo dígitos)
     const numeroLimpio = numero.replace(/\D/g, '')
     
     if (isMobile) {
-        // En móvil: usar el esquema whatsapp:// (abre la app)
         const whatsappUrl = `whatsapp://send?phone=${numeroLimpio}&text=${mensaje}`
         window.location.href = whatsappUrl
-        
-        // Fallback: si no abre después de 2 segundos, mostrar mensaje
         setTimeout(() => {
             if (!document.hidden) {
                 alert('⚠️ No se pudo abrir WhatsApp. Asegúrate de tener la app instalada.')
             }
         }, 2000)
     } else {
-        // En PC: usar WhatsApp Web
         const whatsappUrl = `https://wa.me/${numeroLimpio}?text=${mensaje}`
         window.open(whatsappUrl, '_blank')
     }
 }
 
-// ========== FUNCIÓN PRINCIPAL: ENVIAR PEDIDO A WHATSAPP Y GUARDAR EN SUPABASE ==========
 async function enviarPedidoWhatsApp() {
     const nombre = document.getElementById('nombre')?.value
     const telefono = document.getElementById('telefono')?.value
@@ -299,7 +298,6 @@ async function enviarPedidoWhatsApp() {
     const subtotal = carrito.reduce((sum, item) => sum + (item.precio * item.cantidad), 0)
     const total = subtotal + costoEnvio
     
-    // Preparar productos para guardar
     const productosGuardar = carrito.map(item => ({
         nombre: item.nombre,
         tipo: item.tipo,
@@ -308,10 +306,8 @@ async function enviarPedidoWhatsApp() {
         subtotal: item.precio * item.cantidad
     }))
     
-    // Generar número de pedido único
     const numeroPedido = `PED-${Date.now()}-${Math.floor(Math.random() * 1000)}`
     
-    // Datos del pedido
     const pedidoData = {
         numero_pedido: numeroPedido,
         cliente_nombre: nombre,
@@ -328,10 +324,8 @@ async function enviarPedidoWhatsApp() {
         fecha: new Date().toISOString()
     }
     
-    // Mostrar notificación de guardado
     mostrarNotificacion('💾 Guardando pedido...')
     
-    // ========== GUARDAR EN SUPABASE ==========
     try {
         const { data, error } = await supabaseClient
             .from('pedidos')
@@ -352,8 +346,7 @@ async function enviarPedidoWhatsApp() {
         mostrarNotificacion('⚠️ Error de conexión, guardado localmente')
     }
     
-    // ========== PREPARAR MENSAJE DE WHATSAPP ==========
-    const numeroWhatsappNegocio = '523111198148'  // Código país 52 + número
+    const numeroWhatsappNegocio = '523111198148'
     
     let mensaje = "🛒 *NUEVO PEDIDO - PAPELERÍA EMY*%0A"
     mensaje += `📋 *NÚMERO DE PEDIDO:* ${numeroPedido}%0A%0A`
@@ -377,10 +370,8 @@ async function enviarPedidoWhatsApp() {
     mensaje += "¡Gracias por tu compra! 🙌%0A"
     mensaje += "📍 Papelería Emy - ¡Siempre contigo! 📚"
     
-    // ========== ABRIR WHATSAPP (FUNCIONA EN MÓVIL Y PC) ==========
     abrirWhatsApp(numeroWhatsappNegocio, mensaje)
     
-    // Limpiar carrito y cerrar modal después de un pequeño retraso
     setTimeout(() => {
         cerrarModalEnvio()
         carrito = []
@@ -388,7 +379,6 @@ async function enviarPedidoWhatsApp() {
     }, 1500)
 }
 
-// Guardar pedidos localmente como respaldo
 function guardarPedidoLocal(pedido) {
     const pedidosGuardados = localStorage.getItem('pedidos_backup')
     let pedidos = pedidosGuardados ? JSON.parse(pedidosGuardados) : []
