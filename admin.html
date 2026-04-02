@@ -316,7 +316,6 @@
             100% { opacity: 0; visibility: hidden; }
         }
         
-        /* Estilos para gestión de productos */
         .form-group { margin-bottom: 15px; }
         .form-group label { display: block; margin-bottom: 5px; font-weight: bold; color: #555; }
         .form-group input, .form-group textarea, .form-group select {
@@ -453,7 +452,7 @@
                         <th>Precio</th>
                         <th>Tipo</th>
                         <th>Acciones</th>
-                    </tr>
+                     </tr>
                 </thead>
                 <tbody id="productosBody">
                     <tr><td colspan="7" class="loading">🔄 Cargando productos...</td></tr>
@@ -818,7 +817,7 @@
             .order('id', { ascending: false });
         
         if (error) {
-            tbody.innerHTML = `<tr><td colspan="7" style="color:red;">❌ Error: ${error.message}</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="7" style="color:red;">❌ Error: ${error.message}</td><tr>`;
             return;
         }
         
@@ -864,7 +863,7 @@
         document.getElementById('productoId').value = producto.id;
         document.getElementById('productoNombre').value = producto.nombre;
         document.getElementById('productoDescripcion').value = producto.descripcion;
-        document.getElementById('productoPrecio').value = producto.precio;
+        document.getElementById('productoPrecio').value = Number(producto.precio);
         document.getElementById('productoTipo').value = producto.tipo;
         document.getElementById('productoImagen').value = producto.imagen;
         document.getElementById('productoVideo').value = producto.video || '#';
@@ -911,20 +910,32 @@
         }
     }
     
-    // Event listener del formulario de productos
+    // Event listener del formulario de productos (CORREGIDO)
     document.getElementById('productoForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         
         const id = document.getElementById('productoId').value;
+        
+        // Obtener y validar el precio
+        let precioValue = document.getElementById('productoPrecio').value;
+        precioValue = parseFloat(precioValue.toString().replace(/,/g, ''));
+        
+        if (isNaN(precioValue) || precioValue < 0) {
+            mostrarToast('❌ Ingresa un precio válido (número positivo)', 'error');
+            return;
+        }
+        
         const productoData = {
             nombre: document.getElementById('productoNombre').value,
             descripcion: document.getElementById('productoDescripcion').value,
-            precio: parseFloat(document.getElementById('productoPrecio').value),
+            precio: precioValue,
             tipo: document.getElementById('productoTipo').value,
             imagen: document.getElementById('productoImagen').value,
             video: document.getElementById('productoVideo').value || '#',
             updated_at: new Date().toISOString()
         };
+        
+        console.log('📦 Guardando producto:', productoData);
         
         let error;
         
@@ -935,7 +946,7 @@
                 .eq('id', parseInt(id));
             error = updateError;
             if (!error) {
-                mostrarToast('✅ Producto actualizado', 'success');
+                mostrarToast('✅ Producto actualizado correctamente', 'success');
                 await recargarTienda();
             }
         } else {
@@ -944,12 +955,13 @@
                 .insert([{ ...productoData, created_at: new Date().toISOString() }]);
             error = insertError;
             if (!error) {
-                mostrarToast('✅ Producto agregado', 'success');
+                mostrarToast('✅ Producto agregado correctamente', 'success');
                 await recargarTienda();
             }
         }
         
         if (error) {
+            console.error('❌ Error en Supabase:', error);
             mostrarToast('❌ Error: ' + error.message, 'error');
         } else {
             cerrarModalProducto();
@@ -978,7 +990,7 @@
     }
     
     window.onload = function() {
-        console.log('Admin panel cargado - Versión con gestión de productos y actualización automática');
+        console.log('Admin panel cargado - Versión corregida');
     }
 </script>
 </body>
